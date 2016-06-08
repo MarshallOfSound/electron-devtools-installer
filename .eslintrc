@@ -1,0 +1,7 @@
+{
+  "extends": "airbnb-base",
+  "rules": {
+    "import/no-unresolved": 0,
+    "consistent-return": 0
+  }
+}
