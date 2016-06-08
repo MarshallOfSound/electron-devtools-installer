@@ -2,7 +2,7 @@
   "name": "electron-devtools-installer",
   "version": "1.0.0",
   "description": "An easy way to install Dev Tools extensions into Electron applications",
-  "main": "dist.js",
+  "main": "dist/index.js",
   "scripts": {
     "compile": "babel index.js --presets=es2015 --out-dir dist",
     "prepublish": "npm run compile",
