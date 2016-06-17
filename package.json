@@ -5,10 +5,11 @@
   "main": "dist/index.js",
   "scripts": {
     "lint": "eslint *.js test/*.js",
-    "compile": "babel index.js --out-dir dist",
+    "compile": "babel *.js --out-dir dist",
     "prepublish": "npm run compile",
+    "pretest-unit": "npm run compile",
     "test": "npm run lint && npm run test-unit",
-    "test-unit": "electron-mocha ./test --recursive --compilers js:babel-core/register --timeout 10000 -R spec-xunit-file --renderer"
+    "test-unit": "electron-mocha ./test --recursive --compilers js:babel-core/register --timeout 10000 -R spec-xunit-file"
   },
   "keywords": [
     "electron",
