@@ -1,6 +1,8 @@
 Electron DevTools Installer
 ---------------------------
 
+[![Build Status](https://travis-ci.org/GPMDP/electron-devtools-installer.svg?branch=master)](https://travis-ci.org/GPMDP/electron-devtools-installer)
+
 This is an easy way to install DevTool extensions into Electron.  You shouldn't
 have to mess around with downloading the extension, finding the right folder and
 then configuring the path for everyone's machines.
