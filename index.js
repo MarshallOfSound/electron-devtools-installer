@@ -2,6 +2,7 @@ import { remote } from 'electron';
 import fs from 'fs';
 import { https } from 'follow-redirects';
 import path from 'path';
+import rimraf from 'rimraf';
 import unzip from 'cross-unzip';
 
 const downloadChromeExtension = (chromeStoreID, forceDownload) => {
@@ -17,7 +18,7 @@ const downloadChromeExtension = (chromeStoreID, forceDownload) => {
   return new Promise((resolve, reject) => {
     if (!fs.existsSync(extensionFolder) || forceDownload) {
       if (fs.existsSync(extensionFolder)) {
-        fs.rmdirSync(extensionFolder);
+        rimraf.sync(extensionFolder);
       }
       const fileURL = `https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${chromeStoreID}%26uc&prodversion=32`; // eslint-disable-line
       const download = fs.createWriteStream(path.resolve(`${extensionFolder}.crx`));
