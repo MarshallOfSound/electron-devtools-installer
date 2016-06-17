@@ -1,4 +1,4 @@
-import { remote } from 'electron';
+import electron, { remote } from 'electron';
 import fs from 'fs';
 import { https } from 'follow-redirects';
 import path from 'path';
@@ -6,10 +6,7 @@ import rimraf from 'rimraf';
 import unzip from 'cross-unzip';
 
 const downloadChromeExtension = (chromeStoreID, forceDownload) => {
-  if (!remote) {
-    return Promise.reject('Chrome extensions can not be installed from the main process');
-  }
-  const savePath = remote.app.getPath('userData');
+  const savePath = (remote || electron).app.getPath('userData');
   const extensionsStore = path.resolve(`${savePath}/extensions`);
   if (!fs.existsSync(extensionsStore)) {
     fs.mkdirSync(extensionsStore);
