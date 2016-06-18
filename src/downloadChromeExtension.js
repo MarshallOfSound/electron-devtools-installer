@@ -25,15 +25,18 @@ const downloadChromeExtension = (chromeStoreID, forceDownload, attempts = 5) => 
         timeout: 10000,
         gzip: true,
       })
-      .pipe(download)
       .on('error', (err) => {
+        console.log(`Failed to fetch extension, trying ${attempts - 1} more times`);
         if (attempts <= 1) {
           return reject(err);
         }
-        downloadChromeExtension(chromeStoreID, forceDownload, attempts - 1)
-          .then(resolve)
-          .catch(reject);
+        setTimeout(() => {
+          downloadChromeExtension(chromeStoreID, forceDownload, attempts - 1)
+            .then(resolve)
+            .catch(reject);
+        }, 200);
       })
+      .pipe(download)
       .on('close', () => {
         unzip(path.resolve(`${extensionFolder}.crx`), extensionFolder, (err) => {
           if (err && !fs.existsSync(path.resolve(extensionFolder, 'manifest.json'))) {
