@@ -2,6 +2,10 @@ Electron DevTools Installer
 ---------------------------
 
 [![Build Status](https://travis-ci.org/GPMDP/electron-devtools-installer.svg?branch=master)](https://travis-ci.org/GPMDP/electron-devtools-installer)
+[![npm version](https://badge.fury.io/js/electron-devtools-installer.svg)](https://www.npmjs.com/package/electron-devtools-installer)
+[![npm](https://img.shields.io/npm/dt/electron-devtools-installer.svg?maxAge=2592000)](https://www.npmjs.com/package/electron-devtools-installer)
+[![license](https://img.shields.io/github/license/GPMDP/electron-devtools-installer.svg?maxAge=2592000)](https://github.com/GPMDP/electron-devtools-installer/blob/master/LICENSE)
+![status](https://img.shields.io/badge/Status-%20Ready%20for%20Awesome-red.svg)
 
 This is an easy way to install DevTool extensions into Electron.  You shouldn't
 have to mess around with downloading the extension, finding the right folder and
