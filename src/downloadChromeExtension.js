@@ -22,6 +22,8 @@ const downloadChromeExtension = (chromeStoreID, forceDownload) => {
       request({
         url: fileURL,
         followAllRedirects: true,
+        timeout: 5000,
+        gzip: true,
       })
       .pipe(download)
       .on('error', (err) => reject(err))
