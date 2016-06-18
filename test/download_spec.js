@@ -10,7 +10,7 @@ chai.use(chaiFs);
 chai.should();
 
 // Actual Test Imports
-import downloadChromeExtension from '../downloadChromeExtension';
+import downloadChromeExtension from '../src/downloadChromeExtension';
 
 // This is the extension ID of React Dev Tools
 const reactDevTools = 'fmkadmapgofadopljbjfkapdkoienihi';

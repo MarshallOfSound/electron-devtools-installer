@@ -24,7 +24,9 @@ const downloadChromeExtension = (chromeStoreID, forceDownload) => {
           .pipe(download)
           .on('close', () => {
             unzip(path.resolve(`${extensionFolder}.crx`), extensionFolder, (err) => {
-              if (err) return reject(err);
+              if (err && !fs.existsSync(path.resolve(extensionFolder, 'manifest.json'))) {
+                return reject(err);
+              }
               resolve(extensionFolder);
             });
           });

@@ -8,7 +8,7 @@ chai.use(chaiFs);
 chai.should();
 
 // Actual Test Imports
-import installExtension from '../';
+import installExtension from '../src/';
 
 // This is the extension ID of React Dev Tools
 const reactDevTools = 'fmkadmapgofadopljbjfkapdkoienihi';
