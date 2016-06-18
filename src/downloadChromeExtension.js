@@ -1,6 +1,5 @@
 import electron, { remote } from 'electron';
 import fs from 'fs';
-import { https } from 'follow-redirects';
 import path from 'path';
 import request from 'request';
 import rimraf from 'rimraf';
