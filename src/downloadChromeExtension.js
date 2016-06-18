@@ -5,7 +5,7 @@ import request from 'request';
 import rimraf from 'rimraf';
 import unzip from 'cross-unzip';
 
-const downloadChromeExtension = (chromeStoreID, forceDownload) => {
+const downloadChromeExtension = (chromeStoreID, forceDownload, attempts = 5) => {
   const savePath = (remote || electron).app.getPath('userData');
   const extensionsStore = path.resolve(`${savePath}/extensions`);
   if (!fs.existsSync(extensionsStore)) {
@@ -22,11 +22,18 @@ const downloadChromeExtension = (chromeStoreID, forceDownload) => {
       request({
         url: fileURL,
         followAllRedirects: true,
-        timeout: 5000,
+        timeout: 10000,
         gzip: true,
       })
       .pipe(download)
-      .on('error', (err) => reject(err))
+      .on('error', (err) => {
+        if (attempts <= 1) {
+          return reject(err);
+        }
+        downloadChromeExtension(chromeStoreID, forceDownload, attempts - 1)
+          .then(resolve)
+          .catch(reject);
+      })
       .on('close', () => {
         unzip(path.resolve(`${extensionFolder}.crx`), extensionFolder, (err) => {
           if (err && !fs.existsSync(path.resolve(extensionFolder, 'manifest.json'))) {
