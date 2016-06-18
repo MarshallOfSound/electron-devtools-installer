@@ -11,14 +11,12 @@ chai.should();
 
 // Actual Test Imports
 import downloadChromeExtension from '../src/downloadChromeExtension';
-
-// This is the extension ID of React Dev Tools
-const reactDevTools = 'fmkadmapgofadopljbjfkapdkoienihi';
+import { REACT_DEVELOPER_TOOLS } from '../src/';
 
 describe('Extension Downloader', () => {
   describe('when given a valid extension ID', () => {
     it('should return a valid path', (done) => {
-      downloadChromeExtension(reactDevTools)
+      downloadChromeExtension(REACT_DEVELOPER_TOOLS)
         .then((dir) => {
           dir.should.be.a.directory();
           done();
@@ -27,7 +25,7 @@ describe('Extension Downloader', () => {
     });
 
     it('should download a valid extension', (done) => {
-      downloadChromeExtension(reactDevTools)
+      downloadChromeExtension(REACT_DEVELOPER_TOOLS)
         .then((dir) => {
           dir.should.be.a.directory();
           path.resolve(dir, 'manifest.json').should.be.a.file();
@@ -38,14 +36,14 @@ describe('Extension Downloader', () => {
 
     describe('with the force parameter', () => {
       it('should always re-download the extension', (done) => {
-        downloadChromeExtension(reactDevTools)
+        downloadChromeExtension(REACT_DEVELOPER_TOOLS)
           .then((dir) => {
             dir.should.be.a.directory();
             fs.writeFileSync(path.resolve(dir, 'old_ext.file'), '__TEST__');
             path.resolve(dir, 'manifest.json').should.be.a.file();
             path.resolve(dir, 'old_ext.file').should.be.a.file();
 
-            downloadChromeExtension(reactDevTools, true)
+            downloadChromeExtension(REACT_DEVELOPER_TOOLS, true)
               .then((newDir) => {
                 newDir.should.be.equal(dir);
                 newDir.should.be.a.directory();

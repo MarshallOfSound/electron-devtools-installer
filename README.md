@@ -10,14 +10,26 @@ then configuring the path for everyone's machines.
 All you have to do now is
 
 ```js
-import installExtension from 'electron-devtools-installer';
+import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 
-// This is the extension ID of React Dev Tools
-const extensionID = 'fmkadmapgofadopljbjfkapdkoienihi';
-
-installExtension(extensionID)
+installExtension(REACT_DEVELOPER_TOOLS)
     .then((name) => console.log(`Added Extension:  ${name}`))
     .catch((err) => console.log('An error occurred: ', err));
+```
+
+## What extensions can I use?
+
+Technically you can use whatever extension you want.  Simply find the ChromeStore ID
+of the extension you want to install, and call `installExtension('YOUR_ID_HERE')`.  We
+offer a few extension ID's inside the package so you can easily import them to install without
+having to find them yourselves.
+
+```js
+import installExtension, {
+  EMBER_INSPECTOR, REACT_DEVELOPER_TOOLS,
+  BACKBONE_DEBUGGER, JQUERY_DEBUGGER,
+  ANGULARJS_BATARANG, VUEJS_DEVTOOLS,
+} from 'electron-devtools-installer';
 ```
 
 ## How does it work?
