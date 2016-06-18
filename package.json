@@ -16,8 +16,19 @@
     "dev",
     "tools"
   ],
-  "author": "Samuel Attard",
+  "author": {
+    "name": "Samuel Attard",
+    "email": "samuel.r.attard@gmail.com",
+    "url": "www.samuelattard.com"
+  },
+  "bugs": {
+    "url": "https://github.com/GPMDP/electron-devtools-installer/issues"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GPMDP/electron-devtools-installer.git"
+  },
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-cli": "^6.9.0",
