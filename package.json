@@ -50,6 +50,9 @@
     "request": "^2.72.0",
     "rimraf": "^2.5.2"
   },
+  "peerDependencies": {
+    "electron-prebuilt": "^1.2.1"
+  },
   "babel": {
     "presets": [
       "es2015"
