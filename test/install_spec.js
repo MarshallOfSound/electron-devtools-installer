@@ -9,7 +9,7 @@ chai.use(chaiFs);
 chai.should();
 
 // Actual Test Imports
-import installExtension from '../src/';
+import installExtension, { REACT_DEVELOPER_TOOLS } from '../src/';
 import knownExtensions from './testdata/knownExtensions';
 
 describe('Extension Installer', () => {
@@ -17,6 +17,14 @@ describe('Extension Installer', () => {
     given(...knownExtensions).it('should resolve the extension successfully', (item) =>
       installExtension(item.id).should.become(item.description)
     );
+
+    describe('when attempting to install the same extension twice', () => {
+      it('should reject the promise', () =>
+        installExtension(REACT_DEVELOPER_TOOLS)
+          .then(() => installExtension(REACT_DEVELOPER_TOOLS))
+          .should.be.rejected
+      );
+    });
   });
 
   describe('when given an invalid extension ID', () => {
