@@ -38,3 +38,4 @@ export const BACKBONE_DEBUGGER = 'bhljhndlimiafopmmhjlgfpnnchjjbhd';
 export const JQUERY_DEBUGGER = 'dbhhnnnpaeobfddmlalhnehgclcmjimi';
 export const ANGULARJS_BATARANG = 'ighdmehidhipcmcojjgiloacoafjmpfk';
 export const VUEJS_DEVTOOLS = 'nhdogjmejiglipccpnnnanhbledajbpd';
+export const REDUX_DEVTOOLS = 'lmhkpmbekcpmknklioeibfkpmmfibljd';
