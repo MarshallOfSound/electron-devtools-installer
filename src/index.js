@@ -17,7 +17,7 @@ export default (chromeStoreID, forceDownload = false) => {
     (remote || electron).BrowserWindow.getDevToolsExtensions &&
     (remote || electron).BrowserWindow.getDevToolsExtensions().hasOwnProperty(IDMap[chromeStoreID])
   ) {
-    return Promise.reject(`${IDMap[chromeStoreID]} is already installed`);
+    return Promise.resolve(IDMap[chromeStoreID]);
   }
   return downloadChromeExtension(chromeStoreID, forceDownload)
     .then((extensionFolder) => {
