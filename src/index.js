@@ -13,6 +13,7 @@ if (fs.existsSync(IDMapPath)) {
 
 export default (chromeStoreID, forceDownload = false) => {
   if (
+    !forceDownload &&
     IDMap[chromeStoreID] &&
     (remote || electron).BrowserWindow.getDevToolsExtensions &&
     (remote || electron).BrowserWindow.getDevToolsExtensions().hasOwnProperty(IDMap[chromeStoreID])
