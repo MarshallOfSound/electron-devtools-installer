@@ -40,3 +40,4 @@ export const JQUERY_DEBUGGER = 'dbhhnnnpaeobfddmlalhnehgclcmjimi';
 export const ANGULARJS_BATARANG = 'ighdmehidhipcmcojjgiloacoafjmpfk';
 export const VUEJS_DEVTOOLS = 'nhdogjmejiglipccpnnnanhbledajbpd';
 export const REDUX_DEVTOOLS = 'lmhkpmbekcpmknklioeibfkpmmfibljd';
+export const REACT_PERF = 'hacmcodfllhbnekmghgdlplbdnahmhmm';
