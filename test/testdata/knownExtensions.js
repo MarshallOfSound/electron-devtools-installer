@@ -2,7 +2,7 @@ import {
     EMBER_INSPECTOR, REACT_DEVELOPER_TOOLS,
     BACKBONE_DEBUGGER, JQUERY_DEBUGGER,
     ANGULARJS_BATARANG, VUEJS_DEVTOOLS,
-    REDUX_DEVTOOLS,
+    REDUX_DEVTOOLS, REACT_PERF,
   }
   from '../../src/';
 
@@ -34,6 +34,10 @@ const knownExtensions = [
   {
     id: REDUX_DEVTOOLS,
     description: 'Redux DevTools',
+  },
+  {
+    id: REACT_PERF,
+    description: 'React Perf',
   },
 ];
 
