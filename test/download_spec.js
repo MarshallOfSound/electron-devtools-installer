@@ -5,18 +5,18 @@ import chaiFs from 'chai-fs';
 import fs from 'fs';
 import path from 'path';
 
-chai.use(chaiAsPromised);
-chai.use(chaiFs);
-chai.should();
-
 // Actual Test Imports
 import downloadChromeExtension from '../src/downloadChromeExtension';
 import { REACT_DEVELOPER_TOOLS } from '../src/';
 
+chai.use(chaiAsPromised);
+chai.use(chaiFs);
+chai.should();
+
 describe('Extension Downloader', () => {
   describe('when given a valid extension ID', () => {
     it('should return a valid path', (done) => {
-      downloadChromeExtension(REACT_DEVELOPER_TOOLS)
+      downloadChromeExtension(REACT_DEVELOPER_TOOLS.id)
         .then((dir) => {
           dir.should.be.a.directory();
           done();
@@ -25,7 +25,7 @@ describe('Extension Downloader', () => {
     });
 
     it('should download a valid extension', (done) => {
-      downloadChromeExtension(REACT_DEVELOPER_TOOLS)
+      downloadChromeExtension(REACT_DEVELOPER_TOOLS.id)
         .then((dir) => {
           dir.should.be.a.directory();
           path.resolve(dir, 'manifest.json').should.be.a.file();
@@ -36,14 +36,14 @@ describe('Extension Downloader', () => {
 
     describe('with the force parameter', () => {
       it('should always re-download the extension', (done) => {
-        downloadChromeExtension(REACT_DEVELOPER_TOOLS)
+        downloadChromeExtension(REACT_DEVELOPER_TOOLS.id)
           .then((dir) => {
             dir.should.be.a.directory();
             fs.writeFileSync(path.resolve(dir, 'old_ext.file'), '__TEST__');
             path.resolve(dir, 'manifest.json').should.be.a.file();
             path.resolve(dir, 'old_ext.file').should.be.a.file();
 
-            downloadChromeExtension(REACT_DEVELOPER_TOOLS, true)
+            downloadChromeExtension(REACT_DEVELOPER_TOOLS.id, true)
               .then((newDir) => {
                 newDir.should.be.equal(dir);
                 newDir.should.be.a.directory();

@@ -4,13 +4,13 @@ import chaiAsPromised from 'chai-as-promised';
 import chaiFs from 'chai-fs';
 import { given } from 'mocha-testdata';
 
-chai.use(chaiAsPromised);
-chai.use(chaiFs);
-chai.should();
-
 // Actual Test Imports
 import installExtension, { REACT_DEVELOPER_TOOLS } from '../src/';
 import knownExtensions from './testdata/knownExtensions';
+
+chai.use(chaiAsPromised);
+chai.use(chaiFs);
+chai.should();
 
 describe('Extension Installer', () => {
   describe('when given a valid extension ID', () => {
