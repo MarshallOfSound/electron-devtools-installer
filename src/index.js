@@ -37,12 +37,10 @@ export default (extensionReference, forceDownload = false) => {
   return downloadChromeExtension(chromeStoreID, forceDownload)
     .then((extensionFolder) => {
       const name = (remote || electron).BrowserWindow.addDevToolsExtension(extensionFolder); // eslint-disable-line
-      fs.writeFileSync(
-        IDMapPath,
-        JSON.stringify(Object.assign(IDMap, {
-          [chromeStoreID]: name,
-        }))
-      );
+      IDMap = Object.assign(IDMap, {
+        [chromeStoreID]: name,
+      });
+      fs.writeFileSync(IDMapPath, JSON.stringify(IDMap));
       return Promise.resolve(name);
     });
 };
