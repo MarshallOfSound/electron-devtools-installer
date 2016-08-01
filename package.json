@@ -38,7 +38,7 @@
     "chai-fs": "chaijs/chai-fs",
     "electron-mocha": "^3.0.0",
     "electron-prebuilt": "^1.2.6",
-    "eslint": "^3.1.1",
+    "eslint": "^3.2.2",
     "eslint-config-airbnb-base": "^4.0.2",
     "eslint-plugin-import": "^1.8.1",
     "mocha-testdata": "^1.2.0",
