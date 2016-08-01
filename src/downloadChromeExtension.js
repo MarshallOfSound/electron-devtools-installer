@@ -21,9 +21,8 @@ const downloadChromeExtension = (chromeStoreID, forceDownload, attempts = 5) => 
         followAllRedirects: true,
         timeout: 10000,
         gzip: true,
-      })
-      .on('error', (err) => {
-        console.log(`Failed to fetch extension, trying ${attempts - 1} more times`);
+      }).on('error', (err) => {
+        console.log(`Failed to fetch extension, trying ${attempts - 1} more times`); // eslint-disable-line
         if (attempts <= 1) {
           return reject(err);
         }
@@ -32,9 +31,7 @@ const downloadChromeExtension = (chromeStoreID, forceDownload, attempts = 5) => 
             .then(resolve)
             .catch(reject);
         }, 200);
-      })
-      .pipe(download)
-      .on('close', () => {
+      }).pipe(download).on('close', () => {
         unzip(path.resolve(`${extensionFolder}.crx`), extensionFolder, (err) => {
           if (err && !fs.existsSync(path.resolve(extensionFolder, 'manifest.json'))) {
             return reject(err);
