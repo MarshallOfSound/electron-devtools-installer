@@ -19,12 +19,12 @@ describe('Extension Installer', () => {
     );
 
     describe('when attempting to install the same extension twice', () => {
-      it('should resolve the promise', (done) =>
+      it('should resolve the promise', (done) => {
         installExtension(REACT_DEVELOPER_TOOLS)
           .then(() => installExtension(REACT_DEVELOPER_TOOLS))
           .then(() => done())
-          .catch(() => done('Failed to resolve'))
-      );
+          .catch(() => done('Failed to resolve'));
+      });
     });
   });
 
