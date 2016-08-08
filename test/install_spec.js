@@ -3,6 +3,8 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiFs from 'chai-fs';
 import { given } from 'mocha-testdata';
+import path from 'path';
+import { BrowserWindow } from 'electron';
 
 // Actual Test Imports
 import installExtension, { REACT_DEVELOPER_TOOLS } from '../src/';
@@ -24,6 +26,24 @@ describe('Extension Installer', () => {
           .then(() => installExtension(REACT_DEVELOPER_TOOLS))
           .then(() => done())
           .catch(() => done('Failed to resolve'));
+      });
+
+      it('should upgraded the extension with forceDownload', (done) => {
+        const extensionName = 'React Developer Tools';
+        const oldVersion = '0.14.0';
+        BrowserWindow.removeDevToolsExtension(extensionName);
+        BrowserWindow.addDevToolsExtension(path.join(__dirname, 'fixtures/simple_extension'))
+          .should.be.equal(extensionName);
+        BrowserWindow.getDevToolsExtensions()[extensionName].version
+          .should.be.equal(oldVersion);
+
+        installExtension(REACT_DEVELOPER_TOOLS, true)
+          .then(() => {
+            BrowserWindow.getDevToolsExtensions()[extensionName].version
+              .should.not.be.equal(oldVersion);
+            done();
+          })
+          .catch(err => done(err));
       });
     });
   });

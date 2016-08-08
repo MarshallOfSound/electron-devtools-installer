@@ -6,6 +6,8 @@ import semver from 'semver';
 import downloadChromeExtension from './downloadChromeExtension';
 import { getPath } from './utils';
 
+const { BrowserWindow } = remote || electron;
+
 let IDMap = {};
 const IDMapPath = path.resolve(getPath(), 'IDMap.json');
 if (fs.existsSync(IDMapPath)) {
@@ -26,17 +28,20 @@ export default (extensionReference, forceDownload = false) => {
   } else {
     return Promise.reject(new Error(`Invalid extensionReference passed in: "${extensionReference}"`));
   }
-  if (
-    !forceDownload &&
-    IDMap[chromeStoreID] &&
-    (remote || electron).BrowserWindow.getDevToolsExtensions &&
-    (remote || electron).BrowserWindow.getDevToolsExtensions()[IDMap[chromeStoreID]]
-  ) {
+  const extensionName = IDMap[chromeStoreID];
+  const extensionInstalled = extensionName &&
+    BrowserWindow.getDevToolsExtensions &&
+    BrowserWindow.getDevToolsExtensions()[extensionName];
+  if (!forceDownload && extensionInstalled) {
     return Promise.resolve(IDMap[chromeStoreID]);
   }
   return downloadChromeExtension(chromeStoreID, forceDownload)
     .then((extensionFolder) => {
-      const name = (remote || electron).BrowserWindow.addDevToolsExtension(extensionFolder); // eslint-disable-line
+      // Use forceDownload, but already installed
+      if (extensionInstalled) {
+        BrowserWindow.removeDevToolsExtension(extensionName);
+      }
+      const name = BrowserWindow.addDevToolsExtension(extensionFolder); // eslint-disable-line
       fs.writeFileSync(
         IDMapPath,
         JSON.stringify(Object.assign(IDMap, {
