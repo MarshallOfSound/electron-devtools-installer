@@ -16,7 +16,7 @@ chai.should();
 
 describe('Extension Installer', () => {
   describe('when given a valid extension ID', () => {
-    given(...knownExtensions).it('should resolve the extension successfully', (item) =>
+    given(...knownExtensions).it('should resolve the extension successfully', item =>
       installExtension(item.id).should.become(item.description)
     );
 

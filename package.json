@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "lint": "eslint src/*.js test/*.js",
+    "lint-fix": "npm run lint -- --fix",
     "compile": "babel src --out-dir dist",
     "prepublish": "npm run compile",
     "pretest-unit": "npm run compile",
