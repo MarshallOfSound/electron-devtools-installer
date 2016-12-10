@@ -7,7 +7,8 @@ import path from 'path';
 
 // Actual Test Imports
 import downloadChromeExtension from '../src/downloadChromeExtension';
-import { REACT_DEVELOPER_TOOLS } from '../src/';
+import { REACT_DEVELOPER_TOOLS, setCustomPath } from '../src/';
+import { getPath } from '../src/utils';
 
 chai.use(chaiAsPromised);
 chai.use(chaiFs);
@@ -32,6 +33,13 @@ describe('Extension Downloader', () => {
           done();
         })
         .catch(err => done(err));
+    });
+
+    it('should use custom path when provided with one', () => {
+      const expected = '/fakePath';
+      setCustomPath(expected);
+      getPath().should.equal(expected);
+      setCustomPath(null);
     });
 
     describe('with the force parameter', () => {
