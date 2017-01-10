@@ -8,6 +8,9 @@ import { getPath } from './utils';
 
 const downloadChromeExtension = (chromeStoreID, forceDownload, attempts = 5) => {
   const extensionsStore = getPath();
+  if (!fs.existsSync(extensionsStore)) {
+    fs.mkdirSync(extensionsStore);
+  }
   const extensionFolder = path.resolve(`${extensionsStore}/${chromeStoreID}`);
   return new Promise((resolve, reject) => {
     if (!fs.existsSync(extensionFolder) || forceDownload) {
