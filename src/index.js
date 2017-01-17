@@ -4,7 +4,9 @@ import path from 'path';
 import semver from 'semver';
 
 import downloadChromeExtension from './downloadChromeExtension';
-import { getPath } from './utils';
+import { getPath, setCustomPath } from './utils';
+
+export { setCustomPath };
 
 const { BrowserWindow } = remote || electron;
 
