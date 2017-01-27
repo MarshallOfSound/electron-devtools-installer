@@ -60,7 +60,7 @@ describe('Extension Downloader', () => {
 
   describe('when given an invalid extension ID', () => {
     it('should reject the promise', () =>
-      downloadChromeExtension('YOLO SWAGGINGS').should.be.rejected
+      downloadChromeExtension('YOLO SWAGGINGS').should.be.rejected,
     );
   });
 });

@@ -20,7 +20,7 @@ export default (extensionReference, forceDownload = false) => {
     chromeStoreID = extensionReference.id;
     if (!semver.satisfies(process.versions.electron, extensionReference.electron)) {
       return Promise.reject(
-        new Error(`Version of Electron: ${process.versions.electron} does not match required range ${extensionReference.electron} for extension ${chromeStoreID}`)
+        new Error(`Version of Electron: ${process.versions.electron} does not match required range ${extensionReference.electron} for extension ${chromeStoreID}`),
       );
     }
   } else if (typeof extensionReference === 'string') {
@@ -46,7 +46,7 @@ export default (extensionReference, forceDownload = false) => {
         IDMapPath,
         JSON.stringify(Object.assign(IDMap, {
           [chromeStoreID]: name,
-        }))
+        })),
       );
       return Promise.resolve(name);
     });

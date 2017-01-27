@@ -17,7 +17,7 @@ chai.should();
 describe('Extension Installer', () => {
   describe('when given a valid extension ID', () => {
     given(...knownExtensions).it('should resolve the extension successfully', item =>
-      installExtension(item.id).should.become(item.description)
+      installExtension(item.id).should.become(item.description),
     );
 
     describe('when attempting to install the same extension twice', () => {
@@ -50,7 +50,13 @@ describe('Extension Installer', () => {
 
   describe('when given an invalid extension ID', () => {
     it('should reject the promise', () =>
-      installExtension('YOLO SWAGGINGS').should.be.rejected
+      installExtension('YOLO SWAGGINGS').should.be.rejected,
     );
+  });
+
+  after((done) => {
+    const exts = BrowserWindow.getDevToolsExtensions();
+    Object.keys(exts).forEach(ext => BrowserWindow.removeDevToolsExtension(ext));
+    setTimeout(done, 2000);
   });
 });
