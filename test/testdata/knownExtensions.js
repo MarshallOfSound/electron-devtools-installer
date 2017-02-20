@@ -3,6 +3,7 @@ import {
     BACKBONE_DEBUGGER, JQUERY_DEBUGGER,
     ANGULARJS_BATARANG, VUEJS_DEVTOOLS,
     REDUX_DEVTOOLS, REACT_PERF,
+    CYCLEJS_DEVTOOL,
   }
   from '../../src/';
 
@@ -38,6 +39,10 @@ const knownExtensions = [
   {
     id: REACT_PERF,
     description: 'React Perf',
+  },
+  {
+    id: CYCLEJS_DEVTOOL,
+    description: 'Cycle.js',
   },
 ];
 

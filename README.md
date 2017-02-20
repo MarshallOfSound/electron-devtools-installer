@@ -34,6 +34,7 @@ import installExtension, {
   BACKBONE_DEBUGGER, JQUERY_DEBUGGER,
   ANGULARJS_BATARANG, VUEJS_DEVTOOLS,
   REDUX_DEVTOOLS, REACT_PERF,
+  CYCLEJS_DEVTOOL,
 } from 'electron-devtools-installer';
 ```
 
