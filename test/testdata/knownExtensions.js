@@ -42,7 +42,7 @@ const knownExtensions = [
   },
   {
     id: CYCLEJS_DEVTOOL,
-    description: 'Cycle.js DevTool',
+    description: 'Cycle.js',
   },
 ];
 
