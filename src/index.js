@@ -14,13 +14,16 @@ if (fs.existsSync(IDMapPath)) {
   IDMap = JSON.parse(fs.readFileSync(IDMapPath, 'utf8'));
 }
 
-export default (extensionReference, forceDownload = false) => {
+const install = (extensionReference, forceDownload = false) => {
+  if (Array.isArray(extensionReference)) {
+    return Promise.all(extensionReference.map(extension => install(extension, forceDownload)));
+  }
   let chromeStoreID;
   if (typeof extensionReference === 'object' && extensionReference.id) {
     chromeStoreID = extensionReference.id;
     if (!semver.satisfies(process.versions.electron, extensionReference.electron)) {
       return Promise.reject(
-        new Error(`Version of Electron: ${process.versions.electron} does not match required range ${extensionReference.electron} for extension ${chromeStoreID}`),
+        new Error(`Version of Electron: ${process.versions.electron} does not match required range ${extensionReference.electron} for extension ${chromeStoreID}`), // eslint-disable-line
       );
     }
   } else if (typeof extensionReference === 'string') {
@@ -52,6 +55,7 @@ export default (extensionReference, forceDownload = false) => {
     });
 };
 
+export default install;
 export const EMBER_INSPECTOR = {
   id: 'bmdblncegkenkacieihfhpjfppoconhi',
   electron: '^1.2.1',
