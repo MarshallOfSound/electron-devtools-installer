@@ -48,6 +48,21 @@ describe('Extension Installer', () => {
     });
   });
 
+  describe('when given an array of valid extensions', () => {
+    it('should resolve the promise and install all of them', (done) => {
+      installExtension(knownExtensions)
+        .then(() => {
+          const installed = BrowserWindow.getDevToolsExtensions();
+          for (const extension of knownExtensions) {
+            installed.should.have.property(extension.description);
+            BrowserWindow.removeDevToolsExtension(extension.description);
+          }
+          done();
+        })
+        .catch(err => done(err));
+    });
+  });
+
   describe('when given an invalid extension ID', () => {
     it('should reject the promise', () =>
       installExtension('YOLO SWAGGINGS').should.be.rejected,

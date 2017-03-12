@@ -9,39 +9,39 @@ import {
 
 const knownExtensions = [
   {
-    id: EMBER_INSPECTOR,
+    ...EMBER_INSPECTOR,
     description: 'Ember Inspector',
   },
   {
-    id: REACT_DEVELOPER_TOOLS,
+    ...REACT_DEVELOPER_TOOLS,
     description: 'React Developer Tools',
   },
   {
-    id: BACKBONE_DEBUGGER,
+    ...BACKBONE_DEBUGGER,
     description: 'Backbone Debugger',
   },
   {
-    id: JQUERY_DEBUGGER,
+    ...JQUERY_DEBUGGER,
     description: 'jQuery Debugger',
   },
   {
-    id: ANGULARJS_BATARANG,
+    ...ANGULARJS_BATARANG,
     description: 'AngularJS Batarang',
   },
   {
-    id: VUEJS_DEVTOOLS,
+    ...VUEJS_DEVTOOLS,
     description: 'Vue.js devtools',
   },
   {
-    id: REDUX_DEVTOOLS,
+    ...REDUX_DEVTOOLS,
     description: 'Redux DevTools',
   },
   {
-    id: REACT_PERF,
+    ...REACT_PERF,
     description: 'React Perf',
   },
   {
-    id: CYCLEJS_DEVTOOL,
+    ...CYCLEJS_DEVTOOL,
     description: 'Cycle.js',
   },
 ];
