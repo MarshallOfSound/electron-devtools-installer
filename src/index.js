@@ -94,5 +94,5 @@ export const CYCLEJS_DEVTOOL = {
 };
 export const APOLLO_DEVELOPER_TOOLS = {
   id: 'jdkknkkbebbapilgoeccciglkfbmbnfm',
-  electron: '^1.2.1'
+  electron: '^1.2.1',
 };
