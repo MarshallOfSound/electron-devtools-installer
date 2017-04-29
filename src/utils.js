@@ -9,20 +9,34 @@ export const getPath = () => {
 };
 
 // Use https.get fallback for Electron < 1.4.5
-const { net } = (remote || electron);
+const { net } = remote || electron;
 const request = net ? net.request : https.get;
 
-export const downloadFile = (from, to) => new Promise((resolve, reject) => {
-  const req = request(from);
+const sendRequest = url => new Promise((resolve, reject) => {
+  const req = request(url);
   req.on('response', (res) => {
     // Shouldn't handle redirect with `electron.net`, this is for https.get fallback
     if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-      return downloadFile(res.headers.location, to)
-        .then(resolve)
-        .catch(reject);
+      return sendRequest(res.headers.location);
     }
-    res.pipe(fs.createWriteStream(to)).on('close', resolve);
+    resolve(res);
   });
   req.on('error', reject);
   req.end();
 });
+
+export const downloadFile = (from, to) => new Promise((resolve, reject) =>
+  sendRequest(from)
+    .then(res => res.pipe(fs.createWriteStream(to)).on('close', resolve))
+    .catch(reject),
+);
+
+export const fetchData = url => new Promise((resolve, reject) =>
+  sendRequest(url)
+    .then((res) => {
+      let body = '';
+      res.on('data', (chunk) => { body += chunk; });
+      res.on('end', () => resolve(Object.assign(res, { body })));
+    })
+    .catch(reject),
+);

@@ -4,6 +4,7 @@ import path from 'path';
 import semver from 'semver';
 
 import downloadChromeExtension from './downloadChromeExtension';
+import needUpdate from './needUpdate';
 import { getPath } from './utils';
 
 const { BrowserWindow } = remote || electron;
@@ -14,9 +15,9 @@ if (fs.existsSync(IDMapPath)) {
   IDMap = JSON.parse(fs.readFileSync(IDMapPath, 'utf8'));
 }
 
-const install = (extensionReference, forceDownload = false) => {
+const install = (extensionReference, checkUpdate = false) => {
   if (Array.isArray(extensionReference)) {
-    return Promise.all(extensionReference.map(extension => install(extension, forceDownload)));
+    return Promise.all(extensionReference.map(extension => install(extension, checkUpdate)));
   }
   let chromeStoreID;
   if (typeof extensionReference === 'object' && extensionReference.id) {
@@ -35,24 +36,29 @@ const install = (extensionReference, forceDownload = false) => {
   const extensionInstalled = extensionName &&
     BrowserWindow.getDevToolsExtensions &&
     BrowserWindow.getDevToolsExtensions()[extensionName];
-  if (!forceDownload && extensionInstalled) {
-    return Promise.resolve(IDMap[chromeStoreID]);
-  }
-  return downloadChromeExtension(chromeStoreID, forceDownload)
-    .then((extensionFolder) => {
-      // Use forceDownload, but already installed
-      if (extensionInstalled) {
-        BrowserWindow.removeDevToolsExtension(extensionName);
-      }
-      const name = BrowserWindow.addDevToolsExtension(extensionFolder); // eslint-disable-line
-      fs.writeFileSync(
-        IDMapPath,
-        JSON.stringify(Object.assign(IDMap, {
-          [chromeStoreID]: name,
-        })),
-      );
-      return Promise.resolve(name);
-    });
+  const promise = checkUpdate && extensionInstalled ?
+    needUpdate(chromeStoreID, extensionInstalled.version) :
+    Promise.resolve(false);
+  return promise.then((toUpdate) => {
+    if (!toUpdate && extensionInstalled) {
+      return Promise.resolve(IDMap[chromeStoreID]);
+    }
+    return downloadChromeExtension(chromeStoreID, toUpdate)
+      .then((extensionFolder) => {
+        // Use forceDownload, but already installed
+        if (extensionInstalled) {
+          BrowserWindow.removeDevToolsExtension(extensionName);
+        }
+        const name = BrowserWindow.addDevToolsExtension(extensionFolder); // eslint-disable-line
+        fs.writeFileSync(
+          IDMapPath,
+          JSON.stringify(Object.assign(IDMap, {
+            [chromeStoreID]: name,
+          })),
+        );
+        return Promise.resolve(name);
+      });
+  });
 };
 
 export default install;
