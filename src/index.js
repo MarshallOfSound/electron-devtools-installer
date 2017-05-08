@@ -98,3 +98,7 @@ export const CYCLEJS_DEVTOOL = {
   id: 'dfgplfmhhmdekalbpejekgfegkonjpfp',
   electron: '^1.2.1',
 };
+export const APOLLO_DEVELOPER_TOOLS = {
+  id: 'jdkknkkbebbapilgoeccciglkfbmbnfm',
+  electron: '^1.2.1',
+};
