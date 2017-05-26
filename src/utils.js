@@ -36,7 +36,7 @@ export const fetchData = url => new Promise((resolve, reject) =>
     .then((res) => {
       let body = '';
       res.on('data', (chunk) => { body += chunk; });
-      res.on('end', () => resolve(Object.assign(res, { body })));
+      res.on('end', () => resolve(Object.assign({}, res, { body })));
     })
     .catch(reject),
 );
