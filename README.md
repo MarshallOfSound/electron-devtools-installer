@@ -11,6 +11,17 @@ This is an easy way to install DevTool extensions into Electron.  You shouldn't
 have to mess around with downloading the extension, finding the right folder and
 then configuring the path for everyone's machines.
 
+## Install
+
+```
+npm install electron-devtools-installer --save-dev
+```
+or
+```
+yarn add electron-devtools-installer -D
+```
+
+## Usage
 All you have to do now is
 
 ```js
