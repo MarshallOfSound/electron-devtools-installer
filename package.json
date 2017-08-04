@@ -10,7 +10,8 @@
     "prepublish": "npm run compile",
     "pretest-unit": "npm run compile",
     "test": "npm run lint && npm run test-unit",
-    "test-unit": "electron-mocha ./test --recursive --compilers js:babel-core/register --timeout 60000 -R spec-xunit-file -r test/setup.js"
+    "test-unit": "electron-mocha ./test --recursive --compilers js:babel-core/register --timeout 60000 -R spec-xunit-file -r test/setup.js",
+    "postinstal": "npm run compile"
   },
   "keywords": [
     "electron",
