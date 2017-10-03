@@ -26,3 +26,14 @@ export const downloadFile = (from, to) => new Promise((resolve, reject) => {
   req.on('error', reject);
   req.end();
 });
+
+export const changePermissions = (dir, mode) => {
+  const files = fs.readdirSync(dir);
+  files.forEach((file) => {
+    const filePath = path.join(dir, file);
+    fs.chmodSync(filePath, parseInt(mode, 8));
+    if (fs.statSync(filePath).isDirectory()) {
+      changePermissions(filePath, mode);
+    }
+  });
+};

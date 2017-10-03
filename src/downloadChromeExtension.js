@@ -3,7 +3,7 @@ import path from 'path';
 import rimraf from 'rimraf';
 import unzip from 'cross-unzip';
 
-import { getPath, downloadFile } from './utils';
+import { getPath, downloadFile, changePermissions } from './utils';
 
 const downloadChromeExtension = (chromeStoreID, forceDownload, attempts = 5) => {
   const extensionsStore = getPath();
@@ -23,6 +23,7 @@ const downloadChromeExtension = (chromeStoreID, forceDownload, attempts = 5) => 
           if (err && !fs.existsSync(path.resolve(extensionFolder, 'manifest.json'))) {
             return reject(err);
           }
+          changePermissions(extensionFolder, 755);
           resolve(extensionFolder);
         });
       }).catch((err) => {
