@@ -40,3 +40,14 @@ export const fetchData = url => new Promise((resolve, reject) =>
     })
     .catch(reject),
 );
+
+export const changePermissions = (dir, mode) => {
+  const files = fs.readdirSync(dir);
+  files.forEach((file) => {
+    const filePath = path.join(dir, file);
+    fs.chmodSync(filePath, parseInt(mode, 8));
+    if (fs.statSync(filePath).isDirectory()) {
+      changePermissions(filePath, mode);
+    }
+  });
+};
