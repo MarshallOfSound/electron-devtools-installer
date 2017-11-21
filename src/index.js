@@ -96,3 +96,7 @@ export const APOLLO_DEVELOPER_TOOLS = {
   id: 'jdkknkkbebbapilgoeccciglkfbmbnfm',
   electron: '^1.2.1',
 };
+export const MOBX_DEVTOOLS = {
+  id: 'pfgnfdagidkfgccljigdamigbcnndkod',
+  electron: '^1.2.1',
+};
