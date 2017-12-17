@@ -11,7 +11,11 @@ const { BrowserWindow } = remote || electron;
 let IDMap = {};
 const IDMapPath = path.resolve(getPath(), 'IDMap.json');
 if (fs.existsSync(IDMapPath)) {
-  IDMap = JSON.parse(fs.readFileSync(IDMapPath, 'utf8'));
+  try {
+    IDMap = JSON.parse(fs.readFileSync(IDMapPath, 'utf8'));
+  } catch (err) {
+    console.error('electron-devtools-installer: Invalid JSON present in the IDMap file');
+  }
 }
 
 const install = (extensionReference, forceDownload = false) => {
