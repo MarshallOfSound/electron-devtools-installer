@@ -28,6 +28,13 @@ describe('Extension Compatability Checker', () => {
     });
   });
 
+  describe('when using a compatable beta version of electron', () => {
+    it('should resolve the promise', () => {
+      process.versions.electron = '1.8.2-beta.3';
+      return installExtension(REACT_DEVELOPER_TOOLS).should.be.fulfilled;
+    });
+  });
+
   afterEach(() => {
     process.versions.electron = currentVersion;
   });

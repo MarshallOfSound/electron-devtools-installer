@@ -21,9 +21,10 @@ const install = (extensionReference, forceDownload = false) => {
   let chromeStoreID;
   if (typeof extensionReference === 'object' && extensionReference.id) {
     chromeStoreID = extensionReference.id;
-    if (!semver.satisfies(process.versions.electron, extensionReference.electron)) {
+    const electronVersion = process.versions.electron.split('-')[0];
+    if (!semver.satisfies(electronVersion, extensionReference.electron)) {
       return Promise.reject(
-        new Error(`Version of Electron: ${process.versions.electron} does not match required range ${extensionReference.electron} for extension ${chromeStoreID}`), // eslint-disable-line
+        new Error(`Version of Electron: ${electronVersion} does not match required range ${extensionReference.electron} for extension ${chromeStoreID}`), // eslint-disable-line
       );
     }
   } else if (typeof extensionReference === 'string') {
