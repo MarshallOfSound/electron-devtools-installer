@@ -57,6 +57,7 @@ import installExtension, {
   ANGULARJS_BATARANG, VUEJS_DEVTOOLS,
   REDUX_DEVTOOLS, REACT_PERF,
   CYCLEJS_DEVTOOL, MOBX_DEVTOOLS,
+  APOLLO_DEVELOPER_TOOLS,
 } from 'electron-devtools-installer';
 ```
 
