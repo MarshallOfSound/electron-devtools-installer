@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import rimraf from 'rimraf';
-import unzip from 'cross-unzip';
+import unzip from 'unzip-crx';
 
 import { getPath, downloadFile, changePermissions } from './utils';
 
