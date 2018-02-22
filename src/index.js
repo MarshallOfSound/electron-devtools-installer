@@ -40,7 +40,6 @@ const install = (extensionReference, forceDownload = false) => {
   const extensionInstalled = extensionName &&
     BrowserWindow.getDevToolsExtensions &&
     BrowserWindow.getDevToolsExtensions()[extensionName];
-    console.log(extensionInstalled, BrowserWindow.getDevToolsExtensions())
   if (!forceDownload && extensionInstalled) {
     return Promise.resolve(IDMap[chromeStoreID]);
   }
@@ -50,7 +49,6 @@ const install = (extensionReference, forceDownload = false) => {
       if (extensionInstalled) {
         BrowserWindow.removeDevToolsExtension(extensionName);
       }
-      console.log(extensionFolder)
       const name = BrowserWindow.addDevToolsExtension(extensionFolder); // eslint-disable-line
       fs.writeFileSync(
         IDMapPath,
