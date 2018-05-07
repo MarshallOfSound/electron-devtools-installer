@@ -28,7 +28,7 @@ describe('Extension Installer', () => {
           .catch(() => done('Failed to resolve'));
       });
 
-      it('should upgraded the extension with forceDownload', (done) => {
+      it('should upgraded the extension with checkUpdate', (done) => {
         const extensionName = 'React Developer Tools';
         const oldVersion = '0.14.0';
         BrowserWindow.removeDevToolsExtension(extensionName);
