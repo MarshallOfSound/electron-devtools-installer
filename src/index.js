@@ -83,7 +83,7 @@ export const ANGULARJS_BATARANG = {
 };
 export const VUEJS_DEVTOOLS = {
   id: 'nhdogjmejiglipccpnnnanhbledajbpd',
-  electron: '>=1.2.1',
+  electron: '>=2.0.0',
 };
 export const REDUX_DEVTOOLS = {
   id: 'lmhkpmbekcpmknklioeibfkpmmfibljd',
