@@ -9,10 +9,10 @@ import { getPath } from './utils';
 const { BrowserWindow } = remote || electron;
 
 let IDMap = {};
-const IDMapPath = path.resolve(getPath(), 'IDMap.json');
-if (fs.existsSync(IDMapPath)) {
+const getIDMapPath = () => path.resolve(getPath(), 'IDMap.json');
+if (fs.existsSync(getIDMapPath())) {
   try {
-    IDMap = JSON.parse(fs.readFileSync(IDMapPath, 'utf8'));
+    IDMap = JSON.parse(fs.readFileSync(getIDMapPath(), 'utf8'));
   } catch (err) {
     console.error('electron-devtools-installer: Invalid JSON present in the IDMap file');
   }
@@ -51,7 +51,7 @@ const install = (extensionReference, forceDownload = false) => {
       }
       const name = BrowserWindow.addDevToolsExtension(extensionFolder); // eslint-disable-line
       fs.writeFileSync(
-        IDMapPath,
+        getIDMapPath(),
         JSON.stringify(Object.assign(IDMap, {
           [chromeStoreID]: name,
         })),
