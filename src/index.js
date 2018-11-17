@@ -81,6 +81,10 @@ export const ANGULARJS_BATARANG = {
   id: 'ighdmehidhipcmcojjgiloacoafjmpfk',
   electron: '>=1.2.1',
 };
+export const AUGURY = {
+  id: 'elgalmkoelokbchhkhacckoklkejnhcd',
+  electron: '>=1.2.1',
+};
 export const VUEJS_DEVTOOLS = {
   id: 'nhdogjmejiglipccpnnnanhbledajbpd',
   electron: '>=1.2.1',

@@ -1,7 +1,7 @@
 import {
     EMBER_INSPECTOR, REACT_DEVELOPER_TOOLS,
     BACKBONE_DEBUGGER, JQUERY_DEBUGGER,
-    ANGULARJS_BATARANG, VUEJS_DEVTOOLS,
+    ANGULARJS_BATARANG, AUGURY, VUEJS_DEVTOOLS,
     REDUX_DEVTOOLS, REACT_PERF,
     CYCLEJS_DEVTOOL, APOLLO_DEVELOPER_TOOLS,
   }
@@ -27,6 +27,10 @@ const knownExtensions = [
   {
     ...ANGULARJS_BATARANG,
     description: 'AngularJS Batarang',
+  },
+  {
+    ...AUGURY,
+    description: 'Augury',
   },
   {
     ...VUEJS_DEVTOOLS,
