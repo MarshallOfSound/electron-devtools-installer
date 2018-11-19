@@ -4,6 +4,7 @@ import {
     ANGULARJS_BATARANG, VUEJS_DEVTOOLS,
     REDUX_DEVTOOLS, REACT_PERF,
     CYCLEJS_DEVTOOL, APOLLO_DEVELOPER_TOOLS,
+    MOBX_DEVTOOLS
   }
   from '../../src/';
 
@@ -47,6 +48,10 @@ const knownExtensions = [
   {
     ...APOLLO_DEVELOPER_TOOLS,
     description: 'Apollo Client Developer Tools',
+  },
+  {
+    ...MOBX_DEVTOOLS,
+    description: 'MobX Developer Tools',
   },
 ];
 
