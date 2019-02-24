@@ -1,3 +1,4 @@
 node_modules
 dist
 xunit.xml
+package-lock.json

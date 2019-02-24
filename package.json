@@ -48,10 +48,10 @@
     "spec-xunit-file": "0.0.1-3"
   },
   "dependencies": {
-    "7zip": "0.0.6",
-    "cross-unzip": "0.0.2",
+    "cross-unzip": "^0.2.1",
     "rimraf": "^2.5.2",
-    "semver": "^5.3.0"
+    "semver": "^5.3.0",
+    "win-7zip": "^0.1.1"
   },
   "babel": {
     "presets": [
