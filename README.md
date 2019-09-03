@@ -23,24 +23,28 @@ yarn add electron-devtools-installer -D
 ```
 
 ## Usage
-All you have to do now is
+All you have to do now is install an extension once app is ready
 
 ```js
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-
-installExtension(REACT_DEVELOPER_TOOLS)
-    .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log('An error occurred: ', err));
 ```
 
-Alternatively, using `require()` and destructuring (node v6 or higher) you can
+Alternatively, using `require()` and destructuring (node v6 or higher):
 
 ```js
 const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
+```
 
-installExtension(REACT_DEVELOPER_TOOLS)
+```js
+function createWindow() {
+  installExtension(REACT_DEVELOPER_TOOLS)
     .then((name) => console.log(`Added Extension:  ${name}`))
     .catch((err) => console.log('An error occurred: ', err));
+    
+  // Your BrowserWindow init code...
+}
+
+app.on('ready', createWindow);
 ```
 
 ## What extensions can I use?
