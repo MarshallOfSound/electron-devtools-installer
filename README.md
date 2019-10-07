@@ -35,6 +35,7 @@ app.on('ready', () => {
         .catch((err) => console.log('An error occurred: ', err));
 });
 ```
+To install multiple extensions, `installExtension` takes an array.
 
 Alternatively, using `require()` and destructuring (node v6 or higher) you can
 
