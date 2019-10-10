@@ -30,7 +30,7 @@ import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-insta
 
 installExtension(REACT_DEVELOPER_TOOLS)
     .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log('An error occurred: ', err));
+    .catch((err) => console.log(`An error occurred: ${err}`));
 ```
 
 Alternatively, using `require()` and destructuring (node v6 or higher) you can
@@ -40,7 +40,7 @@ const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-d
 
 installExtension(REACT_DEVELOPER_TOOLS)
     .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log('An error occurred: ', err));
+    .catch((err) => console.log(`An error occurred: ${err}`));
 ```
 
 If you want to install multiple extensions
@@ -62,7 +62,7 @@ const extensions = [
 extensions.map(extension => {
   installExtension(extension)
     .then((name) => console.log(`Added extension: ${name}`))
-    .catch((err) => console.log('An error occurred: ', err));
+    .catch((err) => console.log(`An error occurred: ${err}`));
 });
 ````
 
