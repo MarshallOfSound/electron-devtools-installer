@@ -43,6 +43,29 @@ installExtension(REACT_DEVELOPER_TOOLS)
     .catch((err) => console.log('An error occurred: ', err));
 ```
 
+If you want to install multiple extensions
+
+```js
+const { 
+  default: installExtension, 
+  REACT_DEVELOPER_TOOLS, 
+  REDUX_DEVTOOLS, 
+  APOLLO_DEVELOPER_TOOLS 
+} = require('electron-devtools-installer');
+
+const extensions = [
+  REACT_DEVELOPER_TOOLS, 
+  REDUX_DEVTOOLS,
+  APOLLO_DEVELOPER_TOOLS
+];
+
+extensions.map(extension => {
+  installExtension(extension)
+    .then((name) => console.log(`Added extension: ${name}`))
+    .catch((err) => console.log('An error occurred: ', err));
+});
+````
+
 ## What extensions can I use?
 
 Technically you can use whatever extension you want.  Simply find the ChromeStore ID
