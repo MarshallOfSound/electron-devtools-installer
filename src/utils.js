@@ -1,15 +1,15 @@
-import electron, { remote } from 'electron';
+import * as electron from 'electron';
 import fs from 'fs';
 import path from 'path';
 import https from 'https';
 
 export const getPath = () => {
-  const savePath = (remote || electron).app.getPath('userData');
+  const savePath = (electron.remote || electron).app.getPath('userData');
   return path.resolve(`${savePath}/extensions`);
 };
 
 // Use https.get fallback for Electron < 1.4.5
-const { net } = (remote || electron);
+const { net } = (electron.remote || electron);
 const request = net ? net.request : https.get;
 
 export const downloadFile = (from, to) => new Promise((resolve, reject) => {

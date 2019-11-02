@@ -1,4 +1,4 @@
-import electron, { remote } from 'electron';
+import * as electron from 'electron';
 import fs from 'fs';
 import path from 'path';
 import semver from 'semver';
@@ -6,7 +6,7 @@ import semver from 'semver';
 import downloadChromeExtension from './downloadChromeExtension';
 import { getPath } from './utils';
 
-const { BrowserWindow } = remote || electron;
+const { BrowserWindow } = electron.remote || electron;
 
 let IDMap = {};
 const getIDMapPath = () => path.resolve(getPath(), 'IDMap.json');
