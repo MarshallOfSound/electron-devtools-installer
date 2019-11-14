@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import rimraf from 'rimraf';
-import unzip from 'cross-unzip';
+import unzip from 'unzip-crx';
 
 import { getPath, downloadFile, changePermissions } from './utils';
 
@@ -19,12 +19,13 @@ const downloadChromeExtension = (chromeStoreID, forceDownload, attempts = 5) => 
       const fileURL = `https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${chromeStoreID}%26uc&prodversion=32`; // eslint-disable-line
       const filePath = path.resolve(`${extensionFolder}.crx`);
       downloadFile(fileURL, filePath).then(() => {
-        unzip(filePath, extensionFolder, (err) => {
-          if (err && !fs.existsSync(path.resolve(extensionFolder, 'manifest.json'))) {
-            return reject(err);
-          }
+        unzip(filePath, extensionFolder).then(() => {
           changePermissions(extensionFolder, 755);
           resolve(extensionFolder);
+        }).catch((err) => {
+          if (!fs.existsSync(path.resolve(extensionFolder, 'manifest.json'))) {
+            return reject(err);
+          }
         });
       }).catch((err) => {
         console.log(`Failed to fetch extension, trying ${attempts - 1} more times`); // eslint-disable-line
