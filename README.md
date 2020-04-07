@@ -23,29 +23,23 @@ yarn add electron-devtools-installer -D
 ```
 
 ## Usage
-In your `electron-starter.js` file, add the following callback to `app.on('ready', ... )`,
+All you have to do now is this in the **main** process of your application.
 
 ```js
-const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer');
-const { app, BrowserWindow } = require('electron');
+import installExtension, { REDUX_DEVTOOLS } from 'electron-devtools-installer';
+// Or if you can not use ES6 imports
+/**
+const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
+*/
+const { app } = require('electron');
 
-app.on('ready', () => {
+app.whenReady().then(() => {
     installExtension(REDUX_DEVTOOLS)
         .then((name) => console.log(`Added Extension:  ${name}`))
         .catch((err) => console.log('An error occurred: ', err));
 });
 ```
 To install multiple extensions, `installExtension` takes an array.
-
-Alternatively, using `require()` and destructuring (node v6 or higher) you can
-
-```js
-const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
-
-installExtension(REACT_DEVELOPER_TOOLS)
-    .then((name) => console.log(`Added Extension:  ${name}`))
-    .catch((err) => console.log('An error occurred: ', err));
-```
 
 ## What extensions can I use?
 
