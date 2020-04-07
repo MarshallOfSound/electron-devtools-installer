@@ -1,10 +1,10 @@
 Electron DevTools Installer
 ---------------------------
 
-[![CircleCI](https://circleci.com/gh/MarshallOfSound/electron-devtools-installer.svg?style=svg)](https://circleci.com/gh/MarshallOfSound/electron-devtools-installer)
-[![npm version](https://badge.fury.io/js/electron-devtools-installer.svg)](https://www.npmjs.com/package/electron-devtools-installer)
-[![npm](https://img.shields.io/npm/dt/electron-devtools-installer.svg?maxAge=2592000)](https://www.npmjs.com/package/electron-devtools-installer)
-[![license](https://img.shields.io/github/license/GPMDP/electron-devtools-installer.svg?maxAge=2592000)](https://github.com/GPMDP/electron-devtools-installer/blob/master/LICENSE)
+![CircleCI](https://img.shields.io/circleci/build/github/MarshallOfSound/electron-devtools-installer?style=for-the-badge)
+[![npm version](https://badge.fury.io/js/electron-devtools-installer.svg)](https://www.npmjs.com/package/electron-devtools-installer?style=for-the-badge)
+![npm](https://img.shields.io/npm/v/electron-devtools-installer?style=for-the-badge)
+[![license](https://img.shields.io/github/license/GPMDP/electron-devtools-installer.svg?maxAge=2592000&style=for-the-badge)](https://github.com/GPMDP/electron-devtools-installer/blob/master/LICENSE)
 [![CFA Enabled](https://img.shields.io/badge/CFA-Enabled-success?style=for-the-badge)](https://github.com/continuousauth)
 
 This is an easy way to install DevTool extensions into Electron.  You shouldn't
