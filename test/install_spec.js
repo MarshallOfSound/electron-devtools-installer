@@ -16,7 +16,7 @@ chai.should();
 
 describe('Extension Installer', () => {
   describe('when given a valid extension ID', () => {
-    given(...knownExtensions).it('should resolve the extension successfully', item =>
+    given(...knownExtensions).it('should resolve the extension successfully', (item) =>
       installExtension(item.id).should.become(item.description),
     );
 
@@ -32,18 +32,19 @@ describe('Extension Installer', () => {
         const extensionName = 'React Developer Tools';
         const oldVersion = '0.14.0';
         BrowserWindow.removeDevToolsExtension(extensionName);
-        BrowserWindow.addDevToolsExtension(path.join(__dirname, 'fixtures/simple_extension'))
-          .should.be.equal(extensionName);
-        BrowserWindow.getDevToolsExtensions()[extensionName].version
-          .should.be.equal(oldVersion);
+        BrowserWindow.addDevToolsExtension(
+          path.join(__dirname, 'fixtures/simple_extension'),
+        ).should.be.equal(extensionName);
+        BrowserWindow.getDevToolsExtensions()[extensionName].version.should.be.equal(oldVersion);
 
         installExtension(REACT_DEVELOPER_TOOLS, true)
           .then(() => {
-            BrowserWindow.getDevToolsExtensions()[extensionName].version
-              .should.not.be.equal(oldVersion);
+            BrowserWindow.getDevToolsExtensions()[extensionName].version.should.not.be.equal(
+              oldVersion,
+            );
             done();
           })
-          .catch(err => done(err));
+          .catch((err) => done(err));
       });
     });
   });
@@ -59,19 +60,17 @@ describe('Extension Installer', () => {
           }
           done();
         })
-        .catch(err => done(err));
+        .catch((err) => done(err));
     });
   });
 
   describe('when given an invalid extension ID', () => {
-    it('should reject the promise', () =>
-      installExtension('YOLO SWAGGINGS').should.be.rejected,
-    );
+    it('should reject the promise', () => installExtension('YOLO SWAGGINGS').should.be.rejected);
   });
 
   after((done) => {
     const exts = BrowserWindow.getDevToolsExtensions();
-    Object.keys(exts).forEach(ext => BrowserWindow.removeDevToolsExtension(ext));
+    Object.keys(exts).forEach((ext) => BrowserWindow.removeDevToolsExtension(ext));
     setTimeout(done, 2000);
   });
 });

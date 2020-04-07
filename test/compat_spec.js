@@ -17,8 +17,7 @@ describe('Extension Compatability Checker', () => {
 
   describe('when using a compatable version of electron', () => {
     it('should resolve the promise', () =>
-      installExtension(REACT_DEVELOPER_TOOLS).should.be.fulfilled,
-    );
+      installExtension(REACT_DEVELOPER_TOOLS).should.be.fulfilled);
   });
 
   describe('when using a major bump compatable version of electron', () => {

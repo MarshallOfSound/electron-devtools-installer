@@ -9,23 +9,22 @@ export const getPath = () => {
 };
 
 // Use https.get fallback for Electron < 1.4.5
-const { net } = (remote || electron);
+const { net } = remote || electron;
 const request = net ? net.request : https.get;
 
-export const downloadFile = (from, to) => new Promise((resolve, reject) => {
-  const req = request(from);
-  req.on('response', (res) => {
-    // Shouldn't handle redirect with `electron.net`, this is for https.get fallback
-    if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-      return downloadFile(res.headers.location, to)
-        .then(resolve)
-        .catch(reject);
-    }
-    res.pipe(fs.createWriteStream(to)).on('close', resolve);
+export const downloadFile = (from, to) =>
+  new Promise((resolve, reject) => {
+    const req = request(from);
+    req.on('response', (res) => {
+      // Shouldn't handle redirect with `electron.net`, this is for https.get fallback
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        return downloadFile(res.headers.location, to).then(resolve).catch(reject);
+      }
+      res.pipe(fs.createWriteStream(to)).on('close', resolve);
+    });
+    req.on('error', reject);
+    req.end();
   });
-  req.on('error', reject);
-  req.end();
-});
 
 export const changePermissions = (dir, mode) => {
   const files = fs.readdirSync(dir);
