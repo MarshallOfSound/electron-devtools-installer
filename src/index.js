@@ -20,7 +20,10 @@ if (fs.existsSync(getIDMapPath())) {
 
 const install = (extensionReference, forceDownload = false) => {
   if (Array.isArray(extensionReference)) {
-    return Promise.all(extensionReference.map((extension) => install(extension, forceDownload)));
+    return extensionReference.reduce(
+      (accum, extension) => accum.then(() => install(extension, forceDownload)),
+      Promise.resolve(),
+    );
   }
   let chromeStoreID;
   if (typeof extensionReference === 'object' && extensionReference.id) {

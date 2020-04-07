@@ -68,9 +68,9 @@ describe('Extension Installer', () => {
     it('should reject the promise', () => installExtension('YOLO SWAGGINGS').should.be.rejected);
   });
 
-  after((done) => {
+  afterEach((done) => {
     const exts = BrowserWindow.getDevToolsExtensions();
     Object.keys(exts).forEach((ext) => BrowserWindow.removeDevToolsExtension(ext));
-    setTimeout(done, 2000);
+    setTimeout(done, 200);
   });
 });
