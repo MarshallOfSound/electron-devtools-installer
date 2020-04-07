@@ -1,10 +1,10 @@
-import { net } from 'electron';
+import { app, net } from 'electron';
 import fs from 'fs';
 import path from 'path';
 import https from 'https';
 
 export const getPath = () => {
-  const savePath = (remote || electron).app.getPath('userData');
+  const savePath = app.getPath('userData');
   return path.resolve(`${savePath}/extensions`);
 };
 
@@ -12,11 +12,6 @@ export const getPath = () => {
 const request = net ? net.request : https.get;
 
 export const downloadFile = (from, to) => {
-  if (process.type !== 'browser') {
-    return Promise.reject(
-      new Error('electron-devtools-installer can only be used from the main process'),
-    );
-  }
   return new Promise((resolve, reject) => {
     const req = request(from);
     req.on('response', (res) => {
