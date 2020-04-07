@@ -8,7 +8,7 @@ import { getPath, downloadFile, changePermissions } from './utils';
 const downloadChromeExtension = (chromeStoreID, forceDownload, attempts = 5) => {
   const extensionsStore = getPath();
   if (!fs.existsSync(extensionsStore)) {
-    fs.mkdirSync(extensionsStore);
+    fs.mkdirSync(extensionsStore, { recursive: true });
   }
   const extensionFolder = path.resolve(`${extensionsStore}/${chromeStoreID}`);
   return new Promise((resolve, reject) => {

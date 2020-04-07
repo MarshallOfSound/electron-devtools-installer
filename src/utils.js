@@ -13,7 +13,9 @@ const request = net ? net.request : https.get;
 
 export const downloadFile = (from, to) => {
   if (process.type !== 'browser') {
-    return Promise.reject(new Error('electron-devtools-installer can only be used from the main process'));
+    return Promise.reject(
+      new Error('electron-devtools-installer can only be used from the main process'),
+    );
   }
   return new Promise((resolve, reject) => {
     const req = request(from);
@@ -28,7 +30,7 @@ export const downloadFile = (from, to) => {
     req.on('error', reject);
     req.end();
   });
-}
+};
 
 export const changePermissions = (dir, mode) => {
   const files = fs.readdirSync(dir);
