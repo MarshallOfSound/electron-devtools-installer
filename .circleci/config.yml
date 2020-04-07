@@ -1,0 +1,65 @@
+version: 2.1
+
+jobs:
+  test-electron:
+    parameters:
+      electron_version:
+        type: string
+    docker:
+      - image: electronjs/build:d09fd95029bd8c1c73069888231b29688ef385ed
+    environment:
+      DISPLAY: ':99.0'
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-node_modules-{{ arch }}-{{ checksum "yarn.lock" }}
+            - v1-node_modules-{{ arch }}
+      - run: npx yarn
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-node_modules-{{ arch }}-{{ checksum "yarn.lock" }}
+      - run: npx yarn add electron@<< parameters.electron_version >>
+      - run: sh -e /etc/init.d/xvfb start
+      - run: npx yarn test
+
+  release:
+    docker:
+      - image: circleci/node:10.15
+    steps:
+      - checkout
+      - run: npx yarn
+      - run: npx semantic-release
+
+workflows:
+  version: 2
+  test_and_release:
+    # Run the test jobs first, then the release only when all the test jobs are successful
+    jobs:
+      - test-electron:
+          name: test-electron-4
+          electron_version: ^4.0.0
+      - test-electron:
+          name: test-electron-5
+          electron_version: ^5.0.0
+      - test-electron:
+          name: test-electron-6
+          electron_version: ^6.0.0
+      - test-electron:
+          name: test-electron-7
+          electron_version: ^7.0.0
+      - test-electron:
+          name: test-electron-8
+          electron_version: ^8.0.0
+      - release:
+          requires:
+            - test-electron-4
+            - test-electron-5
+            - test-electron-6
+            - test-electron-7
+            - test-electron-8
+          filters:
+            branches:
+              only:
+                - master
