@@ -2,8 +2,8 @@ Electron DevTools Installer
 ---------------------------
 
 ![CircleCI](https://img.shields.io/circleci/build/github/MarshallOfSound/electron-devtools-installer?style=for-the-badge)
-[![npm version](https://badge.fury.io/js/electron-devtools-installer.svg)](https://www.npmjs.com/package/electron-devtools-installer?style=for-the-badge)
 ![npm](https://img.shields.io/npm/v/electron-devtools-installer?style=for-the-badge)
+![npm](https://img.shields.io/npm/dt/electron-devtools-installer?style=for-the-badge)
 [![license](https://img.shields.io/github/license/GPMDP/electron-devtools-installer.svg?maxAge=2592000&style=for-the-badge)](https://github.com/GPMDP/electron-devtools-installer/blob/master/LICENSE)
 [![CFA Enabled](https://img.shields.io/badge/CFA-Enabled-success?style=for-the-badge)](https://github.com/continuousauth)
 
