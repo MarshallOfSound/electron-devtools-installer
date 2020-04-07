@@ -21,7 +21,7 @@ describe('Extension Downloader', () => {
           dir.should.be.a.directory();
           done();
         })
-        .catch(err => done(err));
+        .catch((err) => done(err));
     });
 
     it('should download a valid extension', (done) => {
@@ -31,7 +31,7 @@ describe('Extension Downloader', () => {
           path.resolve(dir, 'manifest.json').should.be.a.file();
           done();
         })
-        .catch(err => done(err));
+        .catch((err) => done(err));
     });
 
     describe('with the force parameter', () => {
@@ -51,16 +51,15 @@ describe('Extension Downloader', () => {
                 fs.existsSync(path.resolve(newDir, 'old_ext.file')).should.be.equal(false);
                 done();
               })
-              .catch(err => done(err));
+              .catch((err) => done(err));
           })
-          .catch(err => done(err));
+          .catch((err) => done(err));
       });
     });
   });
 
   describe('when given an invalid extension ID', () => {
     it('should reject the promise', () =>
-      downloadChromeExtension('YOLO SWAGGINGS').should.be.rejected,
-    );
+      downloadChromeExtension('YOLO SWAGGINGS').should.be.rejected);
   });
 });

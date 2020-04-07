@@ -1,12 +1,10 @@
-import electron, { remote } from 'electron';
+import { BrowserWindow } from 'electron';
 import fs from 'fs';
 import path from 'path';
 import semver from 'semver';
 
 import downloadChromeExtension from './downloadChromeExtension';
 import { getPath } from './utils';
-
-const { BrowserWindow } = remote || electron;
 
 let IDMap = {};
 const getIDMapPath = () => path.resolve(getPath(), 'IDMap.json');
@@ -19,8 +17,17 @@ if (fs.existsSync(getIDMapPath())) {
 }
 
 const install = (extensionReference, forceDownload = false) => {
+  if (process.type !== 'browser') {
+    return Promise.reject(
+      new Error('electron-devtools-installer can only be used from the main process'),
+    );
+  }
+
   if (Array.isArray(extensionReference)) {
-    return Promise.all(extensionReference.map(extension => install(extension, forceDownload)));
+    return extensionReference.reduce(
+      (accum, extension) => accum.then(() => install(extension, forceDownload)),
+      Promise.resolve(),
+    );
   }
   let chromeStoreID;
   if (typeof extensionReference === 'object' && extensionReference.id) {
@@ -28,36 +35,42 @@ const install = (extensionReference, forceDownload = false) => {
     const electronVersion = process.versions.electron.split('-')[0];
     if (!semver.satisfies(electronVersion, extensionReference.electron)) {
       return Promise.reject(
-        new Error(`Version of Electron: ${electronVersion} does not match required range ${extensionReference.electron} for extension ${chromeStoreID}`), // eslint-disable-line
+        new Error(
+          `Version of Electron: ${electronVersion} does not match required range ${extensionReference.electron} for extension ${chromeStoreID}`,
+        ), // eslint-disable-line
       );
     }
   } else if (typeof extensionReference === 'string') {
     chromeStoreID = extensionReference;
   } else {
-    return Promise.reject(new Error(`Invalid extensionReference passed in: "${extensionReference}"`));
+    return Promise.reject(
+      new Error(`Invalid extensionReference passed in: "${extensionReference}"`),
+    );
   }
   const extensionName = IDMap[chromeStoreID];
-  const extensionInstalled = extensionName &&
+  const extensionInstalled =
+    extensionName &&
     BrowserWindow.getDevToolsExtensions &&
     BrowserWindow.getDevToolsExtensions()[extensionName];
   if (!forceDownload && extensionInstalled) {
     return Promise.resolve(IDMap[chromeStoreID]);
   }
-  return downloadChromeExtension(chromeStoreID, forceDownload)
-    .then((extensionFolder) => {
-      // Use forceDownload, but already installed
-      if (extensionInstalled) {
-        BrowserWindow.removeDevToolsExtension(extensionName);
-      }
-      const name = BrowserWindow.addDevToolsExtension(extensionFolder); // eslint-disable-line
-      fs.writeFileSync(
-        getIDMapPath(),
-        JSON.stringify(Object.assign(IDMap, {
+  return downloadChromeExtension(chromeStoreID, forceDownload).then((extensionFolder) => {
+    // Use forceDownload, but already installed
+    if (extensionInstalled) {
+      BrowserWindow.removeDevToolsExtension(extensionName);
+    }
+    const name = BrowserWindow.addDevToolsExtension(extensionFolder); // eslint-disable-line
+    fs.writeFileSync(
+      getIDMapPath(),
+      JSON.stringify(
+        Object.assign(IDMap, {
           [chromeStoreID]: name,
-        })),
-      );
-      return Promise.resolve(name);
-    });
+        }),
+      ),
+    );
+    return Promise.resolve(name);
+  });
 };
 
 export default install;
