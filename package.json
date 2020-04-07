@@ -7,7 +7,7 @@
     "prettier:check": "prettier --check \"src/**/*.js\" \"test/**/*.js\"",
     "prettier:write": "prettier --write \"src/**/*.js\" \"test/**/*.js\"",
     "compile": "babel src --out-dir dist",
-    "prepublish": "npm run compile",
+    "prepare": "npm run compile",
     "pretest-unit": "npm run compile",
     "test": "npm run prettier:check && npm run test-unit",
     "test-unit": "electron-mocha ./test --recursive --require @babel/register --timeout 60000 -R spec-xunit-file -r test/setup.js"
