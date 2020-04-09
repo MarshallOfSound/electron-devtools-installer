@@ -118,3 +118,7 @@ export const MOBX_DEVTOOLS = {
   id: 'pfgnfdagidkfgccljigdamigbcnndkod',
   electron: '>=1.2.1',
 };
+export const METEOR_DEVTOOLS = {
+  id: 'ibniinmoafhgbifjojidlagmggecmpgf',
+  electron: '>1.2.1',
+}
