@@ -52,6 +52,9 @@ workflows:
       - test-electron:
           name: test-electron-8
           electron_version: ^8.0.0
+      - test-electron:
+          name: test-electron-9
+          electron_version: ^9.0.0
       - release:
           requires:
             - test-electron-4
@@ -59,6 +62,7 @@ workflows:
             - test-electron-6
             - test-electron-7
             - test-electron-8
+            - test-electron-9
           filters:
             branches:
               only:
