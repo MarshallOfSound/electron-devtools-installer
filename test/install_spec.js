@@ -1,5 +1,6 @@
 // Pre-run
-import chai from 'chai';
+import '@babel/polyfill';
+import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiFs from 'chai-fs';
 import { given } from 'mocha-testdata';
@@ -16,9 +17,10 @@ chai.should();
 
 describe('Extension Installer', () => {
   describe('when given a valid extension ID', () => {
-    given(...knownExtensions).it('should resolve the extension successfully', (item) =>
-      installExtension(item.id).should.become(item.description),
-    );
+    given(...knownExtensions).it('should resolve the extension successfully', async (item) => {
+      const result = await installExtension(item.id);
+      expect(result).to.equal(item.description);
+    });
 
     describe('when attempting to install the same extension twice', () => {
       it('should resolve the promise', (done) => {
