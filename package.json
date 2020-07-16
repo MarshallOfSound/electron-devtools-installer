@@ -49,7 +49,7 @@
   "dependencies": {
     "rimraf": "^3.0.2",
     "semver": "^7.2.1",
-    "unzip-crx": "^0.2.0"
+    "unzip-crx-3": "^0.2.0"
   },
   "babel": {
     "presets": [
