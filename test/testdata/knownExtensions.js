@@ -41,18 +41,18 @@ const knownExtensions = [
     ...REDUX_DEVTOOLS,
     description: 'Redux DevTools',
   },
-  // {
-  //   ...REACT_PERF,
-  //   description: 'React Perf',
-  // },
+  {
+    ...REACT_PERF,
+    description: 'React Perf',
+  },
   {
     ...CYCLEJS_DEVTOOL,
     description: 'Cycle.js',
   },
-  // {
-  //   ...APOLLO_DEVELOPER_TOOLS,
-  //   description: 'Apollo Client Developer Tools',
-  // },
+  {
+    ...APOLLO_DEVELOPER_TOOLS,
+    description: 'Apollo Client Developer Tools',
+  },
   {
     ...MOBX_DEVTOOLS,
     description: 'MobX Developer Tools',
