@@ -3,7 +3,7 @@ import {
     BACKBONE_DEBUGGER, JQUERY_DEBUGGER,
     ANGULARJS_BATARANG, VUEJS_DEVTOOLS,
     REDUX_DEVTOOLS, REACT_PERF,
-    CYCLEJS_DEVTOOL, APOLLO_DEVELOPER_TOOLS,
+    CYCLEJS_DEVTOOL,
   }
   from '../../src/';
 
@@ -43,10 +43,6 @@ const knownExtensions = [
   {
     ...CYCLEJS_DEVTOOL,
     description: 'Cycle.js',
-  },
-  {
-    ...APOLLO_DEVELOPER_TOOLS,
-    description: 'Apollo Client Developer Tools',
   },
 ];
 
