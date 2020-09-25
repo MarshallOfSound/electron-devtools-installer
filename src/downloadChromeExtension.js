@@ -16,7 +16,7 @@ const downloadChromeExtension = (chromeStoreID, forceDownload, attempts = 5) => 
       if (fs.existsSync(extensionFolder)) {
         rimraf.sync(extensionFolder);
       }
-      const fileURL = `https://clients2.google.com/service/update2/crx?response=redirect&acceptformat=crx2,crx3&x=id%3D${chromeStoreID}%26uc&prodversion=32`; // eslint-disable-line
+      const fileURL = `https://clients2.google.com/service/update2/crx?response=redirect&acceptformat=crx2,crx3&x=id%3D${chromeStoreID}%26uc&prodversion=32&acceptformat=crx2,crx3`; // eslint-disable-line
       const filePath = path.resolve(`${extensionFolder}.crx`);
       downloadFile(fileURL, filePath)
         .then(() => {
