@@ -128,7 +128,7 @@ export const REDUX_DEVTOOLS = {
   electron: '>=1.2.1',
 };
 export const REACT_PERF = {
-  id: 'hacmcodfllhbnekmghgdlplbdnahmhmm',
+  id: 'fcombecpigkkfcbfaeikoeegkmkjfbfm',
   electron: '>=1.2.6',
 };
 export const CYCLEJS_DEVTOOL = {
