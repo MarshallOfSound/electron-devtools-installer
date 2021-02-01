@@ -6,7 +6,6 @@ import {
   ANGULARJS_BATARANG,
   VUEJS_DEVTOOLS,
   REDUX_DEVTOOLS,
-  REACT_PERF,
   CYCLEJS_DEVTOOL,
   APOLLO_DEVELOPER_TOOLS,
   MOBX_DEVTOOLS,
@@ -41,10 +40,6 @@ const knownExtensions = [
     ...REDUX_DEVTOOLS,
     description: 'Redux DevTools',
   },
-  // {
-  //   ...REACT_PERF,
-  //   description: 'React Perf',
-  // },
   {
     ...CYCLEJS_DEVTOOL,
     description: 'Cycle.js',
