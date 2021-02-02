@@ -40,6 +40,8 @@ app.whenReady().then(() => {
 ```
 To install multiple extensions, `installExtension` takes an array.
 
+Optionally `installExtension` takes a second `Object` argument of options for electron's [`ses.loadExtension()`](https://www.electronjs.org/docs/api/session#sesloadextensionpath).
+
 ## What extensions can I use?
 
 Technically you can use whatever extension you want.  Simply find the ChromeStore ID
