@@ -16,7 +16,7 @@ if (fs.existsSync(getIDMapPath())) {
   }
 }
 
-const install = (extensionReference, forceDownload = false) => {
+const install = (extensionReference, options = {}, forceDownload = false) => {
   if (process.type !== 'browser') {
     return Promise.reject(
       new Error('electron-devtools-installer can only be used from the main process'),
@@ -25,7 +25,7 @@ const install = (extensionReference, forceDownload = false) => {
 
   if (Array.isArray(extensionReference)) {
     return extensionReference.reduce(
-      (accum, extension) => accum.then(() => install(extension, forceDownload)),
+      (accum, extension) => accum.then(() => install(extension, options, forceDownload)),
       Promise.resolve(),
     );
   }
@@ -79,7 +79,7 @@ const install = (extensionReference, forceDownload = false) => {
 
     // For Electron >=9.
     if (session.defaultSession.loadExtension) {
-      return session.defaultSession.loadExtension(extensionFolder).then((ext) => {
+      return session.defaultSession.loadExtension(extensionFolder, options).then((ext) => {
         return Promise.resolve(ext.name);
       });
     }
