@@ -52,7 +52,7 @@ describe('Extension Installer', () => {
                 .find((e) => e.name === extensionName)
                 .version.should.be.equal(oldVersion);
 
-              installExtension(REACT_DEVELOPER_TOOLS, true)
+              installExtension(REACT_DEVELOPER_TOOLS, {}, true)
                 .then(() => {
                   session.defaultSession
                     .getAllExtensions()
@@ -69,7 +69,7 @@ describe('Extension Installer', () => {
           ).should.be.equal(extensionName);
           BrowserWindow.getDevToolsExtensions()[extensionName].version.should.be.equal(oldVersion);
 
-          installExtension(REACT_DEVELOPER_TOOLS, true)
+          installExtension(REACT_DEVELOPER_TOOLS, {}, true)
             .then(() => {
               BrowserWindow.getDevToolsExtensions()[extensionName].version.should.not.be.equal(
                 oldVersion,
