@@ -70,13 +70,15 @@ describe('Extension Installer', () => {
           ((BrowserWindow.addDevToolsExtension(
             path.join(__dirname, 'fixtures/simple_extension'),
           ) as any) as string).should.be.equal(extensionName);
-          BrowserWindow.getDevToolsExtensions()[extensionName].version.should.be.equal(oldVersion);
+          (BrowserWindow.getDevToolsExtensions() as any)[extensionName].version.should.be.equal(
+            oldVersion,
+          );
 
           installExtension(REACT_DEVELOPER_TOOLS, true)
             .then(() => {
-              BrowserWindow.getDevToolsExtensions()[extensionName].version.should.not.be.equal(
-                oldVersion,
-              );
+              (BrowserWindow.getDevToolsExtensions() as any)[
+                extensionName
+              ].version.should.not.be.equal(oldVersion);
               done();
             })
             .catch((err) => done(err));
