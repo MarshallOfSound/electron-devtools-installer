@@ -1,11 +1,16 @@
-import fs from 'fs';
-import path from 'path';
-import rimraf from 'rimraf';
-import unzip from 'unzip-crx-3';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as rimraf from 'rimraf';
 
 import { getPath, downloadFile, changePermissions } from './utils';
 
-const downloadChromeExtension = (chromeStoreID, forceDownload, attempts = 5) => {
+const unzip: any = require('unzip-crx-3');
+
+const downloadChromeExtension = (
+  chromeStoreID: string,
+  forceDownload?: boolean,
+  attempts = 5,
+): Promise<string> => {
   const extensionsStore = getPath();
   if (!fs.existsSync(extensionsStore)) {
     fs.mkdirSync(extensionsStore, { recursive: true });
@@ -25,7 +30,7 @@ const downloadChromeExtension = (chromeStoreID, forceDownload, attempts = 5) => 
               changePermissions(extensionFolder, 755);
               resolve(extensionFolder);
             })
-            .catch((err) => {
+            .catch((err: Error) => {
               if (!fs.existsSync(path.resolve(extensionFolder, 'manifest.json'))) {
                 return reject(err);
               }

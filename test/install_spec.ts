@@ -1,11 +1,14 @@
 // Pre-run
-import '@babel/polyfill';
-import chai, { expect } from 'chai';
-import chaiAsPromised from 'chai-as-promised';
-import chaiFs from 'chai-fs';
+import * as chai from 'chai';
+import * as chaiAsPromised from 'chai-as-promised';
+import * as chaiFs from 'chai-fs';
 import { given } from 'mocha-testdata';
-import path from 'path';
-import { BrowserWindow, session } from 'electron';
+import * as path from 'path';
+import { BrowserWindow, session as _session } from 'electron';
+
+const { expect } = chai;
+
+const session = _session as any;
 
 // Actual Test Imports
 import installExtension, { REACT_DEVELOPER_TOOLS } from '../src/';
@@ -45,35 +48,37 @@ describe('Extension Installer', () => {
         if (session.defaultSession.loadExtension) {
           session.defaultSession
             .loadExtension(path.join(__dirname, 'fixtures/simple_extension'))
-            .then((ext) => {
+            .then((ext: any) => {
               ext.name.should.be.equal(extensionName);
               session.defaultSession
                 .getAllExtensions()
-                .find((e) => e.name === extensionName)
+                .find((e: any) => e.name === extensionName)
                 .version.should.be.equal(oldVersion);
 
               installExtension(REACT_DEVELOPER_TOOLS, true)
                 .then(() => {
                   session.defaultSession
                     .getAllExtensions()
-                    .find((e) => e.name === extensionName)
+                    .find((e: any) => e.name === extensionName)
                     .version.should.not.be.equal(oldVersion);
                   done();
                 })
                 .catch((err) => done(err));
             })
-            .catch((err) => done(err));
+            .catch((err: Error) => done(err));
         } else {
-          BrowserWindow.addDevToolsExtension(
+          ((BrowserWindow.addDevToolsExtension(
             path.join(__dirname, 'fixtures/simple_extension'),
-          ).should.be.equal(extensionName);
-          BrowserWindow.getDevToolsExtensions()[extensionName].version.should.be.equal(oldVersion);
+          ) as any) as string).should.be.equal(extensionName);
+          (BrowserWindow.getDevToolsExtensions() as any)[extensionName].version.should.be.equal(
+            oldVersion,
+          );
 
           installExtension(REACT_DEVELOPER_TOOLS, true)
             .then(() => {
-              BrowserWindow.getDevToolsExtensions()[extensionName].version.should.not.be.equal(
-                oldVersion,
-              );
+              (BrowserWindow.getDevToolsExtensions() as any)[
+                extensionName
+              ].version.should.not.be.equal(oldVersion);
               done();
             })
             .catch((err) => done(err));
@@ -90,8 +95,8 @@ describe('Extension Installer', () => {
           if (session.defaultSession.getAllExtensions) {
             const installed = session.defaultSession.getAllExtensions();
             for (const extension of knownExtensions) {
-              installed.map((e) => e.name).should.include(extension.description);
-              const extensionId = installed.find((e) => e.name === extension.description).id;
+              installed.map((e: any) => e.name).should.include(extension.description);
+              const extensionId = installed.find((e: any) => e.name === extension.description).id;
               session.defaultSession.removeExtension(extensionId);
             }
           } else {
@@ -116,7 +121,7 @@ describe('Extension Installer', () => {
     if (session.defaultSession.getAllExtensions) {
       session.defaultSession
         .getAllExtensions()
-        .forEach((ext) => session.defaultSession.removeExtension(ext.id));
+        .forEach((ext: any) => session.defaultSession.removeExtension(ext.id));
     } else {
       const exts = BrowserWindow.getDevToolsExtensions();
       Object.keys(exts).forEach((ext) => BrowserWindow.removeDevToolsExtension(ext));

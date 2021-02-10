@@ -1,7 +1,7 @@
 import { app, net } from 'electron';
-import fs from 'fs';
-import path from 'path';
-import https from 'https';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as https from 'https';
 
 export const getPath = () => {
   const savePath = app.getPath('userData');
@@ -9,14 +9,14 @@ export const getPath = () => {
 };
 
 // Use https.get fallback for Electron < 1.4.5
-const request = net ? net.request : https.get;
+const request: typeof https.request = net ? (net.request as any) : https.get;
 
-export const downloadFile = (from, to) => {
-  return new Promise((resolve, reject) => {
+export const downloadFile = (from: string, to: string) => {
+  return new Promise<void>((resolve, reject) => {
     const req = request(from);
     req.on('response', (res) => {
       // Shouldn't handle redirect with `electron.net`, this is for https.get fallback
-      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+      if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
         return downloadFile(res.headers.location, to).then(resolve).catch(reject);
       }
       res.pipe(fs.createWriteStream(to)).on('close', resolve);
@@ -27,11 +27,11 @@ export const downloadFile = (from, to) => {
   });
 };
 
-export const changePermissions = (dir, mode) => {
+export const changePermissions = (dir: string, mode: string | number) => {
   const files = fs.readdirSync(dir);
   files.forEach((file) => {
     const filePath = path.join(dir, file);
-    fs.chmodSync(filePath, parseInt(mode, 8));
+    fs.chmodSync(filePath, parseInt(`${mode}`, 8));
     if (fs.statSync(filePath).isDirectory()) {
       changePermissions(filePath, mode);
     }
