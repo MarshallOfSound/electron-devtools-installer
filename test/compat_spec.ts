@@ -1,18 +1,18 @@
 // Pre-run
-import chai from 'chai';
-import chaiAsPromised from 'chai-as-promised';
+import * as chai from 'chai';
+import * as chaiAsPromised from 'chai-as-promised';
 
 // Actual Test Imports
-import installExtension, { REACT_DEVELOPER_TOOLS } from '../src/';
+import installExtension, { REACT_DEVELOPER_TOOLS } from '../src';
 
 chai.use(chaiAsPromised);
 chai.should();
 
 describe('Extension Compatability Checker', () => {
-  let currentVersion;
+  let currentVersion: PropertyDescriptor;
 
   beforeEach(() => {
-    currentVersion = Object.getOwnPropertyDescriptor(process.versions, 'electron');
+    currentVersion = Object.getOwnPropertyDescriptor(process.versions, 'electron')!;
   });
 
   describe('when using a compatable version of electron', () => {

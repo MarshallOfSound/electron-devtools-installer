@@ -1,12 +1,12 @@
 import { BrowserWindow, session } from 'electron';
-import fs from 'fs';
-import path from 'path';
-import semver from 'semver';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as semver from 'semver';
 
 import downloadChromeExtension from './downloadChromeExtension';
 import { getPath } from './utils';
 
-let IDMap = {};
+let IDMap: Record<string, string> = {};
 const getIDMapPath = () => path.resolve(getPath(), 'IDMap.json');
 if (fs.existsSync(getIDMapPath())) {
   try {
@@ -16,7 +16,43 @@ if (fs.existsSync(getIDMapPath())) {
   }
 }
 
-const install = (extensionReference, forceDownload = false) => {
+interface ExtensionReference {
+  /**
+   * Extension ID
+   */
+  id: string;
+  /**
+   * Range of electron versions this extension is supported by
+   */
+  electron: string;
+}
+
+interface ExtensionOptions {
+  /**
+   * Ignore whether the extension is already downloaded and redownload every time
+   */
+  forceDownload?: boolean;
+  /**
+   * Options passed to session.loadExtension
+   */
+  loadExtensionOptions?: Record<any, any>;
+}
+
+/**
+ * @param extensionReference Extension or extensions to install
+ * @param options Installation options
+ * @returns A promise resolving with the name or names of the extensions installed
+ */
+const install = (
+  extensionReference: ExtensionReference | string | Array<ExtensionReference | string>,
+  options: ExtensionOptions | boolean = {},
+): Promise<string> => {
+  // Support old forceDownload syntax
+  if (typeof options === 'boolean') {
+    options = { forceDownload: options };
+  }
+  const { forceDownload, loadExtensionOptions } = options;
+
   if (process.type !== 'browser') {
     return Promise.reject(
       new Error('electron-devtools-installer can only be used from the main process'),
@@ -25,11 +61,11 @@ const install = (extensionReference, forceDownload = false) => {
 
   if (Array.isArray(extensionReference)) {
     return extensionReference.reduce(
-      (accum, extension) => accum.then(() => install(extension, forceDownload)),
-      Promise.resolve(),
+      (accum, extension) => accum.then(() => install(extension, options)),
+      Promise.resolve(''),
     );
   }
-  let chromeStoreID;
+  let chromeStoreID: string;
   if (typeof extensionReference === 'object' && extensionReference.id) {
     chromeStoreID = extensionReference.id;
     const electronVersion = process.versions.electron.split('-')[0];
@@ -48,16 +84,18 @@ const install = (extensionReference, forceDownload = false) => {
     );
   }
   const extensionName = IDMap[chromeStoreID];
-  let extensionInstalled = extensionName;
+  let extensionInstalled: boolean;
 
   // For Electron >=9.
-  if (session.defaultSession.getExtension) {
+  if ((session.defaultSession as any).getExtension) {
     extensionInstalled =
-      extensionInstalled &&
-      session.defaultSession.getAllExtensions().find((e) => e.name === extensionName);
+      !!extensionName &&
+      (session.defaultSession as any)
+        .getAllExtensions()
+        .find((e: { name: string }) => e.name === extensionName);
   } else {
     extensionInstalled =
-      extensionInstalled &&
+      !!extensionName &&
       BrowserWindow.getDevToolsExtensions &&
       BrowserWindow.getDevToolsExtensions().hasOwnProperty(extensionName);
   }
@@ -65,23 +103,27 @@ const install = (extensionReference, forceDownload = false) => {
   if (!forceDownload && extensionInstalled) {
     return Promise.resolve(IDMap[chromeStoreID]);
   }
-  return downloadChromeExtension(chromeStoreID, forceDownload).then((extensionFolder) => {
+  return downloadChromeExtension(chromeStoreID, forceDownload || false).then((extensionFolder) => {
     // Use forceDownload, but already installed
     if (extensionInstalled) {
       // For Electron >=9.
-      if (session.defaultSession.removeExtension) {
-        const extensionId = session.defaultSession.getAllExtensions().find((e) => e.name).id;
-        session.defaultSession.removeExtension(extensionId);
+      if ((session.defaultSession as any).removeExtension) {
+        const extensionId = (session.defaultSession as any)
+          .getAllExtensions()
+          .find((e: { name: string }) => e.name).id;
+        (session.defaultSession as any).removeExtension(extensionId);
       } else {
         BrowserWindow.removeDevToolsExtension(extensionName);
       }
     }
 
     // For Electron >=9.
-    if (session.defaultSession.loadExtension) {
-      return session.defaultSession.loadExtension(extensionFolder).then((ext) => {
-        return Promise.resolve(ext.name);
-      });
+    if ((session.defaultSession as any).loadExtension) {
+      return (session.defaultSession as any)
+        .loadExtension(extensionFolder, loadExtensionOptions)
+        .then((ext: { name: string }) => {
+          return Promise.resolve(ext.name);
+        });
     }
 
     const name = BrowserWindow.addDevToolsExtension(extensionFolder); // eslint-disable-line
@@ -99,43 +141,43 @@ const install = (extensionReference, forceDownload = false) => {
 };
 
 export default install;
-export const EMBER_INSPECTOR = {
+export const EMBER_INSPECTOR: ExtensionReference = {
   id: 'bmdblncegkenkacieihfhpjfppoconhi',
   electron: '>=1.2.1',
 };
-export const REACT_DEVELOPER_TOOLS = {
+export const REACT_DEVELOPER_TOOLS: ExtensionReference = {
   id: 'fmkadmapgofadopljbjfkapdkoienihi',
   electron: '>=1.2.1',
 };
-export const BACKBONE_DEBUGGER = {
+export const BACKBONE_DEBUGGER: ExtensionReference = {
   id: 'bhljhndlimiafopmmhjlgfpnnchjjbhd',
   electron: '>=1.2.1',
 };
-export const JQUERY_DEBUGGER = {
+export const JQUERY_DEBUGGER: ExtensionReference = {
   id: 'dbhhnnnpaeobfddmlalhnehgclcmjimi',
   electron: '>=1.2.1',
 };
-export const ANGULARJS_BATARANG = {
+export const ANGULARJS_BATARANG: ExtensionReference = {
   id: 'ighdmehidhipcmcojjgiloacoafjmpfk',
   electron: '>=1.2.1',
 };
-export const VUEJS_DEVTOOLS = {
+export const VUEJS_DEVTOOLS: ExtensionReference = {
   id: 'nhdogjmejiglipccpnnnanhbledajbpd',
   electron: '>=1.2.1',
 };
-export const REDUX_DEVTOOLS = {
+export const REDUX_DEVTOOLS: ExtensionReference = {
   id: 'lmhkpmbekcpmknklioeibfkpmmfibljd',
   electron: '>=1.2.1',
 };
-export const CYCLEJS_DEVTOOL = {
+export const CYCLEJS_DEVTOOL: ExtensionReference = {
   id: 'dfgplfmhhmdekalbpejekgfegkonjpfp',
   electron: '>=1.2.1',
 };
-export const APOLLO_DEVELOPER_TOOLS = {
+export const APOLLO_DEVELOPER_TOOLS: ExtensionReference = {
   id: 'jdkknkkbebbapilgoeccciglkfbmbnfm',
   electron: '>=1.2.1',
 };
-export const MOBX_DEVTOOLS = {
+export const MOBX_DEVTOOLS: ExtensionReference = {
   id: 'pfgnfdagidkfgccljigdamigbcnndkod',
   electron: '>=1.2.1',
 };

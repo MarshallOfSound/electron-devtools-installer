@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "sourceMap": true,
+    "strict": true,
+    "outDir": "dist",
+    "types": [
+      "node",
+      "mocha"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "declaration": true
+  },
+  "include": [
+    "src"
+  ]
+}

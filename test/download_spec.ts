@@ -1,9 +1,9 @@
 // Pre-run
-import chai from 'chai';
-import chaiAsPromised from 'chai-as-promised';
-import chaiFs from 'chai-fs';
-import fs from 'fs';
-import path from 'path';
+import * as chai from 'chai';
+import * as chaiAsPromised from 'chai-as-promised';
+import * as chaiFs from 'chai-fs';
+import * as fs from 'fs';
+import * as path from 'path';
 
 // Actual Test Imports
 import downloadChromeExtension from '../src/downloadChromeExtension';
