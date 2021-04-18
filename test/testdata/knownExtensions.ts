@@ -5,6 +5,7 @@ import {
   JQUERY_DEBUGGER,
   ANGULARJS_BATARANG,
   VUEJS_DEVTOOLS,
+  VUEJS3_DEVTOOLS,
   REDUX_DEVTOOLS,
   CYCLEJS_DEVTOOL,
   APOLLO_DEVELOPER_TOOLS,
@@ -34,6 +35,10 @@ const knownExtensions = [
   },
   {
     ...VUEJS_DEVTOOLS,
+    description: 'Vue.js devtools',
+  },
+  {
+    ...VUEJS3_DEVTOOLS,
     description: 'Vue.js devtools',
   },
   {
