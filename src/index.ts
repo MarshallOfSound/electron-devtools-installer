@@ -185,3 +185,7 @@ export const MOBX_DEVTOOLS: ExtensionReference = {
   id: 'pfgnfdagidkfgccljigdamigbcnndkod',
   electron: '>=1.2.1',
 };
+export const XSTATE_DEVTOOLS: ExtensionReference = {
+  id: 'aamnodipnlopbknpklfoabalmobheehc',
+  electron: '>=1.2.1',
+};
