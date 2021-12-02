@@ -16,7 +16,7 @@ if (fs.existsSync(getIDMapPath())) {
   }
 }
 
-interface ExtensionReference {
+export interface ExtensionReference {
   /**
    * Extension ID
    */
@@ -27,7 +27,7 @@ interface ExtensionReference {
   electron: string;
 }
 
-interface ExtensionOptions {
+export interface ExtensionOptions {
   /**
    * Ignore whether the extension is already downloaded and redownload every time
    */
