@@ -157,8 +157,8 @@ export const JQUERY_DEBUGGER: ExtensionReference = {
   id: 'dbhhnnnpaeobfddmlalhnehgclcmjimi',
   electron: '>=1.2.1',
 };
-export const ANGULARJS_BATARANG: ExtensionReference = {
-  id: 'ighdmehidhipcmcojjgiloacoafjmpfk',
+export const ANGULAR_DEVTOOLS: ExtensionReference = {
+  id: 'ienfalfjdbdpebioblfackkekamfmbnh',
   electron: '>=1.2.1',
 };
 export const VUEJS_DEVTOOLS: ExtensionReference = {
