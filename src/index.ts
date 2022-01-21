@@ -47,7 +47,7 @@ interface ExtensionOptions {
 const install = (
   extensionReference: ExtensionReference | string | Array<ExtensionReference | string>,
   options: ExtensionOptions | boolean = {},
-  custom_session: any = null
+  custom_session: any = null,
 ): Promise<string> => {
   // Support old forceDownload syntax
   if (typeof options === 'boolean') {
