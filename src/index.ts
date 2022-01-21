@@ -41,11 +41,13 @@ interface ExtensionOptions {
 /**
  * @param extensionReference Extension or extensions to install
  * @param options Installation options
+ * @param custom_session A custom session
  * @returns A promise resolving with the name or names of the extensions installed
  */
 const install = (
   extensionReference: ExtensionReference | string | Array<ExtensionReference | string>,
   options: ExtensionOptions | boolean = {},
+  custom_session: any = null
 ): Promise<string> => {
   // Support old forceDownload syntax
   if (typeof options === 'boolean') {
@@ -87,10 +89,11 @@ const install = (
   let extensionInstalled: boolean;
 
   // For Electron >=9.
-  if ((session.defaultSession as any).getExtension) {
+  custom_session = custom_session === null ? session.defaultSession : custom_session;
+  if ((custom_session as any).getExtension) {
     extensionInstalled =
       !!extensionName &&
-      (session.defaultSession as any)
+      (custom_session as any)
         .getAllExtensions()
         .find((e: { name: string }) => e.name === extensionName);
   } else {
@@ -107,19 +110,19 @@ const install = (
     // Use forceDownload, but already installed
     if (extensionInstalled) {
       // For Electron >=9.
-      if ((session.defaultSession as any).removeExtension) {
-        const extensionId = (session.defaultSession as any)
+      if ((custom_session as any).removeExtension) {
+        const extensionId = (custom_session as any)
           .getAllExtensions()
           .find((e: { name: string }) => e.name).id;
-        (session.defaultSession as any).removeExtension(extensionId);
+        (custom_session as any).removeExtension(extensionId);
       } else {
         BrowserWindow.removeDevToolsExtension(extensionName);
       }
     }
 
     // For Electron >=9.
-    if ((session.defaultSession as any).loadExtension) {
-      return (session.defaultSession as any)
+    if ((custom_session as any).loadExtension) {
+      return (custom_session as any)
         .loadExtension(extensionFolder, loadExtensionOptions)
         .then((ext: { name: string }) => {
           return Promise.resolve(ext.name);
