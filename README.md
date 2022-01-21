@@ -33,7 +33,27 @@ const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-d
 const { app } = require('electron');
 
 app.whenReady().then(() => {
-    installExtension(REDUX_DEVTOOLS)
+    installExtension(REDUX_DEVTOOLS, {
+			loadExtensionOptions: {
+				allowFileAccess: true
+			},
+			forceDownload: true
+		})
+        .then((name) => console.log(`Added Extension:  ${name}`))
+        .catch((err) => console.log('An error occurred: ', err));
+});
+```
+You can add a third param in installExtension to use a custom session, if it is not set then session.defaultSession will be used.
+
+```js
+
+app.whenReady().then(() => {
+    installExtension(REDUX_DEVTOOLS, {
+			loadExtensionOptions: {
+				allowFileAccess: true
+			}
+		},
+    customSession)
         .then((name) => console.log(`Added Extension:  ${name}`))
         .catch((err) => console.log('An error occurred: ', err));
 });
