@@ -8,8 +8,8 @@ export const getPath = () => {
   return path.resolve(`${savePath}/extensions`);
 };
 
-// Use https.get fallback for Electron < 1.4.5
-const request: typeof https.request = net ? (net.request as any) : https.get;
+// fix: https://github.com/MarshallOfSound/electron-devtools-installer/issues/215
+const request: typeof https.request = https.get;
 
 export const downloadFile = (from: string, to: string) => {
   return new Promise<void>((resolve, reject) => {
