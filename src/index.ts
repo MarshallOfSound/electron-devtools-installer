@@ -110,7 +110,7 @@ const install = (
       if ((session.defaultSession as any).removeExtension) {
         const extensionId = (session.defaultSession as any)
           .getAllExtensions()
-          .find((e: { name: string }) => e.name).id;
+          .find((e: { name: string }) => e.name === extensionName).id;
         (session.defaultSession as any).removeExtension(extensionId);
       } else {
         BrowserWindow.removeDevToolsExtension(extensionName);
