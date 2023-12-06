@@ -39,7 +39,7 @@ interface ExtensionOptions {
   /**
    * Pass a custom session to install into rather than the defaultSession
    */
-  session?: Session
+  session?: Session;
 }
 
 /**
