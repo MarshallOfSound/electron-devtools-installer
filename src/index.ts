@@ -1,4 +1,4 @@
-import { BrowserWindow, session, Session } from 'electron';
+import { session, Session } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as semver from 'semver';
@@ -91,19 +91,9 @@ const install = (
   const extensionName = IDMap[chromeStoreID];
   let extensionInstalled: boolean;
 
-  // For Electron >=9.
-  if ((thisSession as any).getExtension) {
-    extensionInstalled =
-      !!extensionName &&
-      (thisSession as any)
-        .getAllExtensions()
-        .find((e: { name: string }) => e.name === extensionName);
-  } else {
-    extensionInstalled =
-      !!extensionName &&
-      BrowserWindow.getDevToolsExtensions &&
-      BrowserWindow.getDevToolsExtensions().hasOwnProperty(extensionName);
-  }
+  extensionInstalled =
+    !!extensionName &&
+    (thisSession as any).getAllExtensions().find((e: { name: string }) => e.name === extensionName);
 
   if (!forceDownload && extensionInstalled) {
     return Promise.resolve(IDMap[chromeStoreID]);
@@ -111,37 +101,17 @@ const install = (
   return downloadChromeExtension(chromeStoreID, forceDownload || false).then((extensionFolder) => {
     // Use forceDownload, but already installed
     if (extensionInstalled) {
-      // For Electron >=9.
-      if ((thisSession as any).removeExtension) {
-        const extensionId = (thisSession as any)
-          .getAllExtensions()
-          .find((e: { name: string }) => e.name).id;
-        (thisSession as any).removeExtension(extensionId);
-      } else {
-        BrowserWindow.removeDevToolsExtension(extensionName);
-      }
+      const extensionId = (thisSession as any)
+        .getAllExtensions()
+        .find((e: { name: string }) => e.name).id;
+      (thisSession as any).removeExtension(extensionId);
     }
 
-    // For Electron >=9.
-    if ((thisSession as any).loadExtension) {
-      return (thisSession as any)
-        .loadExtension(extensionFolder, loadExtensionOptions)
-        .then((ext: { name: string }) => {
-          return Promise.resolve(ext.name);
-        });
-    }
-
-    const name = BrowserWindow.addDevToolsExtension(extensionFolder); // eslint-disable-line
-
-    fs.writeFileSync(
-      getIDMapPath(),
-      JSON.stringify(
-        Object.assign(IDMap, {
-          [chromeStoreID]: name,
-        }),
-      ),
-    );
-    return Promise.resolve(name);
+    return (thisSession as any)
+      .loadExtension(extensionFolder, loadExtensionOptions)
+      .then((ext: { name: string }) => {
+        return Promise.resolve(ext.name);
+      });
   });
 };
 

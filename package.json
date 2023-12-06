@@ -42,7 +42,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-fs": "chaijs/chai-fs",
-    "electron": "7.2.1",
+    "electron": "20.3.0",
     "electron-mocha": "^8.2.1",
     "mocha-testdata": "^1.2.0",
     "prettier": "^2.0.4",
