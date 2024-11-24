@@ -25,30 +25,46 @@ yarn add electron-devtools-installer -D
 All you have to do now is this in the **main** process of your application.
 
 ```js
-import installExtension, { REDUX_DEVTOOLS } from 'electron-devtools-installer';
+import install, { REDUX_DEVTOOLS } from 'electron-devtools-installer';
+
+// Or if you have error 'install' is not a function
+/**
+import devtools from 'electron-devtools-installer';
+
+const { default: install, REDUX_DEVTOOLS } = devtools;
+*/
+
 // Or if you can not use ES6 imports
 /**
-const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
+const { default: install, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 */
+
 const { app } = require('electron');
 
-app.whenReady().then(() => {
-    installExtension(REDUX_DEVTOOLS)
-        .then((name) => console.log(`Added Extension:  ${name}`))
-        .catch((err) => console.log('An error occurred: ', err));
+app.whenReady().then(async () => {
+    // You must await for installation to complete before creating a window:
+    try {
+        const name = await install(REDUX_DEVTOOLS);
+
+        console.log(`Added Extension:  ${name}`);
+    } catch (err) {
+        console.log('An error occurred: ', err);
+    }
+
+    // createWindow();
 });
 ```
-To install multiple extensions, `installExtension` takes an array.
+To install multiple extensions, `install` takes an array.
 
 ## What extensions can I use?
 
 Technically you can use whatever extension you want.  Simply find the ChromeStore ID
-of the extension you want to install, and call `installExtension('YOUR_ID_HERE')`.  We
-offer a few extension ID's inside the package so you can easily import them to install without
-having to find them yourselves.
+of the extension you want to install, and call `install('YOUR_ID_HERE')`.  We 
+offer a few extension ID's inside the package so you can easily import them to 
+install without having to find them yourselves.
 
 ```js
-import installExtension, {
+import install, {
   EMBER_INSPECTOR, REACT_DEVELOPER_TOOLS,
   BACKBONE_DEBUGGER, JQUERY_DEBUGGER,
   ANGULARJS_BATARANG, VUEJS_DEVTOOLS,
