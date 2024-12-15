@@ -1,10 +1,11 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as rimraf from 'rimraf';
+var e2c = require('electron-to-chromium');
 
 import { getPath, downloadFile, changePermissions } from './utils';
 
-const unzip: any = require('unzip-crx-3');
+import unzip from '@tomjs/unzip-crx';
 
 const downloadChromeExtension = (
   chromeStoreID: string,
@@ -21,7 +22,9 @@ const downloadChromeExtension = (
       if (fs.existsSync(extensionFolder)) {
         rimraf.sync(extensionFolder);
       }
-      const fileURL = `https://clients2.google.com/service/update2/crx?response=redirect&acceptformat=crx2,crx3&x=id%3D${chromeStoreID}%26uc&prodversion=32`; // eslint-disable-line
+      const fileURL = `https://clients2.google.com/service/update2/crx?response=redirect&acceptformat=crx2,crx3&x=id%3D${chromeStoreID}%26uc&prodversion=${e2c.electronToChromium(
+        process.versions.electron,
+      )}`; // eslint-disable-line
       const filePath = path.resolve(`${extensionFolder}.crx`);
       downloadFile(fileURL, filePath)
         .then(() => {

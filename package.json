@@ -31,7 +31,7 @@
     "url": "https://github.com/MarshallOfSound/electron-devtools-installer.git"
   },
   "devDependencies": {
-    "@continuous-auth/semantic-release-npm": "^2.0.0",
+    "@continuous-auth/semantic-release-npm": "^4.0.0",
     "@types/chai": "^4.2.14",
     "@types/chai-as-promised": "^7.1.3",
     "@types/chai-fs": "^2.0.2",
@@ -42,15 +42,17 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-fs": "chaijs/chai-fs",
-    "electron": "7.2.1",
-    "electron-mocha": "^8.2.1",
+    "electron": "^33.2.1",
+    "electron-mocha": "^13.0.1",
     "mocha-testdata": "^1.2.0",
     "prettier": "^2.0.4",
     "spec-xunit-file": "0.0.1-3",
-    "ts-node": "^9.1.1",
+    "ts-node": "^10.9.2",
     "typescript": "^4.1.4"
   },
   "dependencies": {
+    "@tomjs/unzip-crx": "^1.1.3",
+    "electron-to-chromium": "^1.5.73",
     "rimraf": "^3.0.2",
     "semver": "^7.2.1",
     "tslib": "^2.1.0",

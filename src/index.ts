@@ -84,7 +84,7 @@ const install = (
     );
   }
   const extensionName = IDMap[chromeStoreID];
-  let extensionInstalled: boolean;
+  let extensionInstalled: boolean = false;
 
   // For Electron >=9.
   if ((session.defaultSession as any).getExtension) {
@@ -93,12 +93,12 @@ const install = (
       (session.defaultSession as any)
         .getAllExtensions()
         .find((e: { name: string }) => e.name === extensionName);
-  } else {
+  } /* else {
     extensionInstalled =
       !!extensionName &&
       BrowserWindow.getDevToolsExtensions &&
       BrowserWindow.getDevToolsExtensions().hasOwnProperty(extensionName);
-  }
+  }*/
 
   if (!forceDownload && extensionInstalled) {
     return Promise.resolve(IDMap[chromeStoreID]);
@@ -112,9 +112,9 @@ const install = (
           .getAllExtensions()
           .find((e: { name: string }) => e.name).id;
         (session.defaultSession as any).removeExtension(extensionId);
-      } else {
+      } /* else {
         BrowserWindow.removeDevToolsExtension(extensionName);
-      }
+      }*/
     }
 
     // For Electron >=9.
@@ -126,7 +126,7 @@ const install = (
         });
     }
 
-    const name = BrowserWindow.addDevToolsExtension(extensionFolder); // eslint-disable-line
+    //const name = BrowserWindow.addDevToolsExtension(extensionFolder); // eslint-disable-line
 
     fs.writeFileSync(
       getIDMapPath(),
@@ -171,10 +171,6 @@ export const VUEJS3_DEVTOOLS: ExtensionReference = {
 };
 export const REDUX_DEVTOOLS: ExtensionReference = {
   id: 'lmhkpmbekcpmknklioeibfkpmmfibljd',
-  electron: '>=1.2.1',
-};
-export const CYCLEJS_DEVTOOL: ExtensionReference = {
-  id: 'dfgplfmhhmdekalbpejekgfegkonjpfp',
   electron: '>=1.2.1',
 };
 export const APOLLO_DEVELOPER_TOOLS: ExtensionReference = {

@@ -40,9 +40,9 @@ describe('Extension Installer', () => {
         // For Electron >=9.
         if (session.defaultSession.removeExtension) {
           session.defaultSession.removeExtension(extensionName);
-        } else {
+        } /* else {
           BrowserWindow.removeDevToolsExtension(extensionName);
-        }
+        }*/
 
         // For Electron >=9.
         if (session.defaultSession.loadExtension) {
@@ -66,7 +66,7 @@ describe('Extension Installer', () => {
                 .catch((err) => done(err));
             })
             .catch((err: Error) => done(err));
-        } else {
+        } /* else {
           ((BrowserWindow.addDevToolsExtension(
             path.join(__dirname, 'fixtures/simple_extension'),
           ) as any) as string).should.be.equal(extensionName);
@@ -82,7 +82,7 @@ describe('Extension Installer', () => {
               done();
             })
             .catch((err) => done(err));
-        }
+        }*/
       });
     });
   });
@@ -99,13 +99,13 @@ describe('Extension Installer', () => {
               const extensionId = installed.find((e: any) => e.name === extension.description).id;
               session.defaultSession.removeExtension(extensionId);
             }
-          } else {
+          } /* else {
             const installed = BrowserWindow.getDevToolsExtensions();
             for (const extension of knownExtensions) {
               installed.should.have.property(extension.description);
               BrowserWindow.removeDevToolsExtension(extension.description);
             }
-          }
+          }*/
           done();
         })
         .catch((err) => done(err));
@@ -122,10 +122,10 @@ describe('Extension Installer', () => {
       session.defaultSession
         .getAllExtensions()
         .forEach((ext: any) => session.defaultSession.removeExtension(ext.id));
-    } else {
+    } /* else {
       const exts = BrowserWindow.getDevToolsExtensions();
       Object.keys(exts).forEach((ext) => BrowserWindow.removeDevToolsExtension(ext));
-    }
+    }*/
     setTimeout(done, 200);
   });
 });
