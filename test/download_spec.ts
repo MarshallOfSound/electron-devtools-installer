@@ -6,7 +6,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 // Actual Test Imports
-import downloadChromeExtension from '../src/downloadChromeExtension';
+import { downloadChromeExtension } from '../src/downloadChromeExtension';
 import { REACT_DEVELOPER_TOOLS } from '../src/';
 
 chai.use(chaiAsPromised);
@@ -43,7 +43,7 @@ describe('Extension Downloader', () => {
             path.resolve(dir, 'manifest.json').should.be.a.file();
             path.resolve(dir, 'old_ext.file').should.be.a.file();
 
-            downloadChromeExtension(REACT_DEVELOPER_TOOLS.id, true)
+            downloadChromeExtension(REACT_DEVELOPER_TOOLS.id, { forceDownload: true })
               .then((newDir) => {
                 newDir.should.be.equal(dir);
                 newDir.should.be.a.directory();

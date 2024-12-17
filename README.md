@@ -25,7 +25,7 @@ yarn add electron-devtools-installer -D
 All you have to do now is this in the **main** process of your application.
 
 ```js
-import installExtension, { REDUX_DEVTOOLS } from 'electron-devtools-installer';
+import { installExtension, REDUX_DEVTOOLS } from 'electron-devtools-installer';
 // Or if you can not use ES6 imports
 /**
 const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
@@ -34,11 +34,30 @@ const { app } = require('electron');
 
 app.whenReady().then(() => {
     installExtension(REDUX_DEVTOOLS)
-        .then((name) => console.log(`Added Extension:  ${name}`))
+        .then((ext) => console.log(`Added Extension:  ${ext.name}`))
         .catch((err) => console.log('An error occurred: ', err));
 });
 ```
+
 To install multiple extensions, `installExtension` takes an array.
+
+```typescript
+app.whenReady().then(() => {
+    installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS])
+        .then(([redux, react]) => console.log(`Added Extensions:  ${redux.name}, ${react.name}`))
+        .catch((err) => console.log('An error occurred: ', err));
+});
+```
+
+### Local Files
+
+If you want your devtools extensions to work on local `file://` URLs don't forget to set `allowFileAccess` in the options passed to `installExtension`.
+
+```typescript
+installExtension(REDUX_DEVTOOLS, { loadExtensionOptions: { allowFileAccess: true } })
+```
+
+For more information see the [Electron documentation](https://www.electronjs.org/docs/latest/api/session#sesloadextensionpath-options).
 
 ## What extensions can I use?
 
@@ -48,12 +67,12 @@ offer a few extension ID's inside the package so you can easily import them to i
 having to find them yourselves.
 
 ```js
-import installExtension, {
+import {
+  installExtension,
   EMBER_INSPECTOR, REACT_DEVELOPER_TOOLS,
   BACKBONE_DEBUGGER, JQUERY_DEBUGGER,
-  ANGULARJS_BATARANG, VUEJS_DEVTOOLS,
-  VUEJS3_DEVTOOLS, REDUX_DEVTOOLS,
-  CYCLEJS_DEVTOOL, MOBX_DEVTOOLS,
+  VUEJS_DEVTOOLS, VUEJS_DEVTOOLS_BETA,
+  REDUX_DEVTOOLS, MOBX_DEVTOOLS,
   APOLLO_DEVELOPER_TOOLS,
 } from 'electron-devtools-installer';
 ```

@@ -1,28 +1,15 @@
-import { BrowserWindow, LoadExtensionOptions, session } from 'electron';
-import * as fs from 'fs';
-import * as path from 'path';
+import { Extension, LoadExtensionOptions, Session, session } from 'electron';
 
-import downloadChromeExtension from './downloadChromeExtension';
-import { getPath } from './utils';
+import { downloadChromeExtension } from './downloadChromeExtension';
 
-let IDMap: Record<string, string> = {};
-const getIDMapPath = () => path.resolve(getPath(), 'IDMap.json');
-if (fs.existsSync(getIDMapPath())) {
-  try {
-    IDMap = JSON.parse(fs.readFileSync(getIDMapPath(), 'utf8'));
-  } catch (err) {
-    console.error('electron-devtools-installer: Invalid JSON present in the IDMap file');
-  }
-}
-
-interface ExtensionReference {
+export interface ExtensionReference {
   /**
    * Extension ID
    */
   id: string;
 }
 
-interface ExtensionOptions {
+export interface InstallExtensionOptions {
   /**
    * Ignore whether the extension is already downloaded and redownload every time
    */
@@ -31,6 +18,14 @@ interface ExtensionOptions {
    * Options passed to session.loadExtension
    */
   loadExtensionOptions?: LoadExtensionOptions;
+  /**
+   * Optionally specify the session to install devtools into, by default devtools
+   * will be installed into the "defaultSession". See the Electron Session docs
+   * for more info.
+   *
+   * https://electronjs.org/docs/api/session
+   */
+  session?: Session;
 }
 
 /**
@@ -38,11 +33,20 @@ interface ExtensionOptions {
  * @param options Installation options
  * @returns A promise resolving with the name or names of the extensions installed
  */
-const install = (
+export async function installExtension(
+  extensionReference: Array<ExtensionReference | string>,
+  options?: InstallExtensionOptions,
+): Promise<Extension[]>;
+export async function installExtension(
+  extensionReference: ExtensionReference | string,
+  options?: InstallExtensionOptions,
+): Promise<Extension>;
+export async function installExtension(
   extensionReference: ExtensionReference | string | Array<ExtensionReference | string>,
-  options: ExtensionOptions = {},
-): Promise<string> => {
-  const { forceDownload, loadExtensionOptions } = options;
+  options: InstallExtensionOptions = {},
+): Promise<Extension | Extension[]> {
+  const { forceDownload, loadExtensionOptions, session: _session } = options;
+  const targetSession = _session || session.defaultSession;
 
   if (process.type !== 'browser') {
     return Promise.reject(
@@ -52,8 +56,12 @@ const install = (
 
   if (Array.isArray(extensionReference)) {
     return extensionReference.reduce(
-      (accum, extension) => accum.then(() => install(extension, options)),
-      Promise.resolve(''),
+      (accum, extension) =>
+        accum.then(async (result) => {
+          const inner = await installExtension(extension, options);
+          return [...result, inner];
+        }),
+      Promise.resolve([] as Extension[]),
     );
   }
   let chromeStoreID: string;
@@ -62,37 +70,36 @@ const install = (
   } else if (typeof extensionReference === 'string') {
     chromeStoreID = extensionReference;
   } else {
-    return Promise.reject(
-      new Error(`Invalid extensionReference passed in: "${extensionReference}"`),
-    );
+    throw new Error(`Invalid extensionReference passed in: "${extensionReference}"`);
   }
-  const extensionName = IDMap[chromeStoreID];
 
-  const extensionInstalled =
-    !!extensionName &&
-    session.defaultSession.getAllExtensions().find((e) => e.name === extensionName);
+  const installedExtension = targetSession.getAllExtensions().find((e) => e.id === chromeStoreID);
 
-  if (!forceDownload && extensionInstalled) {
-    return Promise.resolve(IDMap[chromeStoreID]);
+  if (!forceDownload && installedExtension) {
+    return installedExtension;
   }
-  return downloadChromeExtension(chromeStoreID, forceDownload || false).then((extensionFolder) => {
-    // Use forceDownload, but already installed
-    if (extensionInstalled) {
-      const extensionId = session.defaultSession.getAllExtensions().find((e) => e.name)?.id;
-      if (extensionId) {
-        session.defaultSession.removeExtension(extensionId);
-      }
-    }
-
-    return session.defaultSession
-      .loadExtension(extensionFolder, loadExtensionOptions)
-      .then((ext: { name: string }) => {
-        return Promise.resolve(ext.name);
-      });
+  const extensionFolder = await downloadChromeExtension(chromeStoreID, {
+    forceDownload: forceDownload || false,
   });
-};
+  // Use forceDownload, but already installed
+  if (installedExtension?.id) {
+    const unloadPromise = new Promise<void>((resolve) => {
+      const handler = (_: unknown, ext: Extension) => {
+        if (ext.id === installedExtension.id) {
+          targetSession.removeListener('extension-unloaded', handler);
+          resolve();
+        }
+      };
+      targetSession.on('extension-unloaded', handler);
+    });
+    targetSession.removeExtension(installedExtension.id);
+    await unloadPromise;
+  }
 
-export default install;
+  return targetSession.loadExtension(extensionFolder, loadExtensionOptions);
+}
+
+export default installExtension;
 export const EMBER_INSPECTOR: ExtensionReference = {
   id: 'bmdblncegkenkacieihfhpjfppoconhi',
 };
@@ -108,7 +115,7 @@ export const JQUERY_DEBUGGER: ExtensionReference = {
 export const VUEJS_DEVTOOLS: ExtensionReference = {
   id: 'nhdogjmejiglipccpnnnanhbledajbpd',
 };
-export const VUEJS3_DEVTOOLS: ExtensionReference = {
+export const VUEJS_DEVTOOLS_BETA: ExtensionReference = {
   id: 'ljjemllljcmogpfapbkkighbhhppjdbg',
 };
 export const REDUX_DEVTOOLS: ExtensionReference = {

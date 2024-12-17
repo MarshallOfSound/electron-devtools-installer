@@ -4,7 +4,7 @@ import * as chaiAsPromised from 'chai-as-promised';
 import * as chaiFs from 'chai-fs';
 import { given } from 'mocha-testdata';
 import * as path from 'path';
-import { BrowserWindow, session } from 'electron';
+import { session } from 'electron';
 
 const { expect } = chai;
 
@@ -20,7 +20,7 @@ describe('Extension Installer', () => {
   describe('when given a valid extension ID', () => {
     given(...knownExtensions).it('should resolve the extension successfully', async (item) => {
       const result = await installExtension(item.id);
-      expect(result).to.equal(item.description);
+      expect(result.name).to.equal(item.description);
     });
 
     describe('when attempting to install the same extension twice', () => {
@@ -39,11 +39,11 @@ describe('Extension Installer', () => {
 
         session.defaultSession
           .loadExtension(path.join(__dirname, 'fixtures/simple_extension'))
-          .then((ext: any) => {
+          .then((ext) => {
             ext.name.should.be.equal(extensionName);
             session.defaultSession
               .getAllExtensions()
-              .find((e: any) => e.name === extensionName)!
+              .find((e) => e.name === extensionName)!
               .version.should.be.equal(oldVersion);
 
             installExtension(REACT_DEVELOPER_TOOLS, {
@@ -52,7 +52,7 @@ describe('Extension Installer', () => {
               .then(() => {
                 session.defaultSession
                   .getAllExtensions()
-                  .find((e: any) => e.name === extensionName)!
+                  .find((e) => e.name === extensionName)!
                   .version.should.not.be.equal(oldVersion);
                 done();
               })
@@ -70,7 +70,7 @@ describe('Extension Installer', () => {
           const installed = session.defaultSession.getAllExtensions();
           for (const extension of knownExtensions) {
             installed.map((e) => e.name).should.include(extension.description);
-            const extensionId = installed.find((e: any) => e.name === extension.description)!.id;
+            const extensionId = installed.find((e) => e.name === extension.description)!.id;
             session.defaultSession.removeExtension(extensionId);
           }
           done();
@@ -86,7 +86,7 @@ describe('Extension Installer', () => {
   afterEach((done) => {
     session.defaultSession
       .getAllExtensions()
-      .forEach((ext: any) => session.defaultSession.removeExtension(ext.id));
+      .forEach((ext) => session.defaultSession.removeExtension(ext.id));
     setTimeout(done, 200);
   });
 });
