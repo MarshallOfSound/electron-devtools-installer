@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  cfa: continuousauth/npm@2.1.1
+
 jobs:
   test-electron:
     parameters:
@@ -55,14 +58,7 @@ workflows:
       - test-electron:
           name: test-electron-9
           electron_version: ^9.0.0
-      - release:
-          # requires:
-          #   - test-electron-4
-          #   - test-electron-5
-          #   - test-electron-6
-          #   - test-electron-7
-          #   - test-electron-8
-          #   - test-electron-9
+      - cfa/release:
           filters:
             branches:
               only:
