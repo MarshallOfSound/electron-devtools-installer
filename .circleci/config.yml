@@ -9,7 +9,7 @@ jobs:
       electron_version:
         type: string
     docker:
-      - image: electronjs/build:d09fd95029bd8c1c73069888231b29688ef385ed
+      - image: ghcr.io/electron/build:bc2f48b2415a670de18d13605b1cf0eb5fdbaae1
     environment:
       DISPLAY: ':99.0'
     steps:
