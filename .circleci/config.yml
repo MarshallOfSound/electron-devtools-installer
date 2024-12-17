@@ -9,7 +9,7 @@ jobs:
       electron_version:
         type: string
     docker:
-      - image: electronjs/build:d09fd95029bd8c1c73069888231b29688ef385ed
+      - image: ghcr.io/electron/build:bc2f48b2415a670de18d13605b1cf0eb5fdbaae1
     environment:
       DISPLAY: ':99.0'
     steps:
@@ -27,38 +27,17 @@ jobs:
       - run: sh -e /etc/init.d/xvfb start
       - run: npx yarn test
 
-  release:
-    docker:
-      - image: circleci/node:10
-    steps:
-      - checkout
-      - run: npx yarn
-      - run: npx semantic-release
-
 workflows:
   version: 2
   test_and_release:
     # Run the test jobs first, then the release only when all the test jobs are successful
     jobs:
       - test-electron:
-          name: test-electron-4
-          electron_version: ^4.0.0
-      - test-electron:
-          name: test-electron-5
-          electron_version: ^5.0.0
-      - test-electron:
-          name: test-electron-6
-          electron_version: ^6.0.0
-      - test-electron:
-          name: test-electron-7
-          electron_version: ^7.0.0
-      - test-electron:
-          name: test-electron-8
-          electron_version: ^8.0.0
-      - test-electron:
-          name: test-electron-9
-          electron_version: ^9.0.0
+          name: test-electron-33
+          electron_version: ^33.0.0
       - cfa/release:
+          requires:
+            - test-electron-33
           filters:
             branches:
               only:
