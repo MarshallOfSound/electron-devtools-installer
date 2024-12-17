@@ -1,7 +1,6 @@
 import { BrowserWindow, LoadExtensionOptions, session } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as semver from 'semver';
 
 import downloadChromeExtension from './downloadChromeExtension';
 import { getPath } from './utils';
@@ -21,10 +20,6 @@ interface ExtensionReference {
    * Extension ID
    */
   id: string;
-  /**
-   * Range of electron versions this extension is supported by
-   */
-  electron: string;
 }
 
 interface ExtensionOptions {
@@ -64,14 +59,6 @@ const install = (
   let chromeStoreID: string;
   if (typeof extensionReference === 'object' && extensionReference.id) {
     chromeStoreID = extensionReference.id;
-    const electronVersion = process.versions.electron.split('-')[0];
-    if (!semver.satisfies(electronVersion, extensionReference.electron)) {
-      return Promise.reject(
-        new Error(
-          `Version of Electron: ${electronVersion} does not match required range ${extensionReference.electron} for extension ${chromeStoreID}`,
-        ), // eslint-disable-line
-      );
-    }
   } else if (typeof extensionReference === 'string') {
     chromeStoreID = extensionReference;
   } else {
@@ -108,33 +95,25 @@ const install = (
 export default install;
 export const EMBER_INSPECTOR: ExtensionReference = {
   id: 'bmdblncegkenkacieihfhpjfppoconhi',
-  electron: '>=1.2.1',
 };
 export const REACT_DEVELOPER_TOOLS: ExtensionReference = {
   id: 'fmkadmapgofadopljbjfkapdkoienihi',
-  electron: '>=1.2.1',
 };
 export const BACKBONE_DEBUGGER: ExtensionReference = {
   id: 'bhljhndlimiafopmmhjlgfpnnchjjbhd',
-  electron: '>=1.2.1',
 };
 export const JQUERY_DEBUGGER: ExtensionReference = {
   id: 'dbhhnnnpaeobfddmlalhnehgclcmjimi',
-  electron: '>=1.2.1',
 };
 export const VUEJS_DEVTOOLS: ExtensionReference = {
   id: 'nhdogjmejiglipccpnnnanhbledajbpd',
-  electron: '>=1.2.1',
 };
 export const VUEJS3_DEVTOOLS: ExtensionReference = {
   id: 'ljjemllljcmogpfapbkkighbhhppjdbg',
-  electron: '>=1.2.1',
 };
 export const REDUX_DEVTOOLS: ExtensionReference = {
   id: 'lmhkpmbekcpmknklioeibfkpmmfibljd',
-  electron: '>=1.2.1',
 };
 export const MOBX_DEVTOOLS: ExtensionReference = {
   id: 'pfgnfdagidkfgccljigdamigbcnndkod',
-  electron: '>=1.2.1',
 };

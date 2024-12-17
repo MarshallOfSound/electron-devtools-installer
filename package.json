@@ -52,7 +52,6 @@
   },
   "dependencies": {
     "rimraf": "^3.0.2",
-    "semver": "^7.2.1",
     "tslib": "^2.1.0",
     "unzip-crx-3": "^0.2.0"
   },
