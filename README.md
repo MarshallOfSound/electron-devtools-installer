@@ -51,7 +51,7 @@ app.whenReady().then(() => {
 
 ### Local Files
 
-If you want your devtools extensions to work on local `file://` URLs don't forget to set `allowFileAccess` in the options passed to `installExtension`.
+If you want your DevTools extensions to work on local `file://` URLs (e.g. loaded via `browserWindow.loadFile()`), don't forget to set `allowFileAccess` in the options passed to `installExtension`.
 
 ```typescript
 installExtension(REDUX_DEVTOOLS, { loadExtensionOptions: { allowFileAccess: true } })
