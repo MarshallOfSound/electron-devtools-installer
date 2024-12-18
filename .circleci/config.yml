@@ -33,13 +33,17 @@ workflows:
     # Run the test jobs first, then the release only when all the test jobs are successful
     jobs:
       - test-electron:
+          name: test-electron-30
+          electron_version: ^30.0.0
+      - test-electron:
           name: test-electron-33
           electron_version: ^33.0.0
       - cfa/release:
           requires:
+            - test-electron-30
             - test-electron-33
           filters:
             branches:
               only:
-                - master
+                - main
           context: cfa-release

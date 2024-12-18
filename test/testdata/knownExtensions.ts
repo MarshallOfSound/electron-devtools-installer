@@ -4,7 +4,7 @@ import {
   BACKBONE_DEBUGGER,
   JQUERY_DEBUGGER,
   VUEJS_DEVTOOLS,
-  VUEJS3_DEVTOOLS,
+  VUEJS_DEVTOOLS_BETA,
   REDUX_DEVTOOLS,
   MOBX_DEVTOOLS,
 } from '../../src/';
@@ -31,7 +31,7 @@ const knownExtensions = [
     description: 'Vue.js devtools',
   },
   {
-    ...VUEJS3_DEVTOOLS,
+    ...VUEJS_DEVTOOLS_BETA,
     description: 'Vue.js devtools (beta)',
   },
   {

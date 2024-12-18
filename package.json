@@ -3,6 +3,7 @@
   "version": "0.0.0-development",
   "description": "An easy way to install Dev Tools extensions into Electron applications",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "prettier:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "prettier:write": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -31,13 +32,11 @@
     "url": "https://github.com/MarshallOfSound/electron-devtools-installer.git"
   },
   "devDependencies": {
-    "@continuous-auth/semantic-release-npm": "^2.0.0",
     "@types/chai": "^4.2.14",
     "@types/chai-as-promised": "^7.1.3",
     "@types/chai-fs": "^2.0.2",
     "@types/mocha": "^8.2.0",
-    "@types/node": "^12.0.0",
-    "@types/rimraf": "^3.0.0",
+    "@types/node": "^18.0.0",
     "@types/semver": "^7.3.4",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -45,14 +44,12 @@
     "electron": "33.3.0",
     "electron-mocha": "^13.0.1",
     "mocha-testdata": "^1.2.0",
-    "prettier": "^2.0.4",
+    "prettier": "^3.4.2",
     "spec-xunit-file": "0.0.1-3",
     "ts-node": "^9.1.1",
-    "typescript": "^4.1.4"
+    "typescript": "^5.7.2"
   },
   "dependencies": {
-    "rimraf": "^3.0.2",
-    "tslib": "^2.1.0",
     "unzip-crx-3": "^0.2.0"
   },
   "files": [
