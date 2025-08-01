@@ -28,6 +28,13 @@ export interface InstallExtensionOptions {
   session?: Session;
 }
 
+type ExtensionApi = Pick<
+  Session,
+  'getAllExtensions' | 'removeListener' | 'removeExtension' | 'loadExtension'
+> & {
+  on: Extract<Session['on'], (event: 'extension-unloaded', ...args: any) => any>;
+};
+
 /**
  * @param extensionReference Extension or extensions to install
  * @param options Installation options
@@ -73,8 +80,10 @@ export async function installExtension(
     throw new Error(`Invalid extensionReference passed in: "${extensionReference}"`);
   }
 
-  const extensionApi: Electron.Extensions | Electron.Session =
-    (targetSession.extensions as Electron.Extensions | undefined) || targetSession;
+  const extensionApi: ExtensionApi =
+    'extensions' in targetSession
+      ? (targetSession as unknown as { extensions: ExtensionApi }).extensions
+      : targetSession;
   const installedExtension = extensionApi.getAllExtensions().find((e) => e.id === chromeStoreID);
 
   if (!forceDownload && installedExtension) {
