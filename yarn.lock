@@ -81,10 +81,12 @@
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-8.2.0.tgz#3eb56d13a1de1d347ecb1957c6860c911704bc44"
   integrity sha512-/Sge3BymXo4lKc31C8OINJgXLaw+7vL1/L1pGiBNpGrBiT8FQiaFpSYV0uhTaG4y78vcMBTMFsWaHDvuD+xGzQ==
 
-"@types/node@*":
-  version "14.14.25"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.25.tgz#15967a7b577ff81383f9b888aa6705d43fbbae93"
-  integrity sha512-EPpXLOVqDvisVxtlbvzfyqSsFeQxltFbluZNRndIb8tr9KiBnYNLzrc1N3pyKUCww2RNrfHDViqDWWE1LCJQtQ==
+"@types/node@*", "@types/node@^22.7.7":
+  version "22.16.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.16.5.tgz#cc46ac3994cd957000d0c11095a0b1dae2ea2368"
+  integrity sha512-bJFoMATwIGaxxx8VJPeM8TonI8t579oRvgAuT8zFugJsJZgzqv0Fu8Mhp68iecjzG7cnN3mO2dJQ5uUM2EFrgQ==
+  dependencies:
+    undici-types "~6.21.0"
 
 "@types/node@^18.0.0":
   version "18.19.68"
@@ -92,13 +94,6 @@
   integrity sha512-QGtpFH1vB99ZmTa63K4/FU8twThj4fuVSBkGddTp7uIL/cuoLWIUSL2RcOaigBhfR+hg5pgGkBnkoOxrTVBMKw==
   dependencies:
     undici-types "~5.26.4"
-
-"@types/node@^22.7.7":
-  version "22.16.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.16.5.tgz#cc46ac3994cd957000d0c11095a0b1dae2ea2368"
-  integrity sha512-bJFoMATwIGaxxx8VJPeM8TonI8t579oRvgAuT8zFugJsJZgzqv0Fu8Mhp68iecjzG7cnN3mO2dJQ5uUM2EFrgQ==
-  dependencies:
-    undici-types "~6.21.0"
 
 "@types/responselike@^1.0.0":
   version "1.0.3"
@@ -445,10 +440,10 @@ electron-window@^0.8.0:
   dependencies:
     is-electron-renderer "^2.0.0"
 
-electron@36.0.0:
-  version "36.0.0"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-36.0.0.tgz#ffbe7ca9edecaee53617f29a088be10bbed9a45f"
-  integrity sha512-MhBL5tgzqLsiw++YXxzXRvF5s90gelcEZP4Upz/aaRmmoscmCw/EtimxMSH6EPnKt+8KwBY9RVAdlcffFPYkyw==
+electron@36.8.1:
+  version "36.8.1"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-36.8.1.tgz#c27dfb13fcc1bedf29929fe67430ee13a778c4df"
+  integrity sha512-honaH58/cyCb9QAzIvD+WXWuNIZ0tW9zfBqMz5wZld/rXB+LCTEDb2B3TAv8+pDmlzPlkPio95RkUe86l6MNjg==
   dependencies:
     "@electron/get" "^2.0.0"
     "@types/node" "^22.7.7"
