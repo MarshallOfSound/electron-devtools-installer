@@ -57,5 +57,6 @@
     "README.md",
     "dist"
   ],
-  "packageManager": "yarn@1.22.22"
+  "packageManager": "yarn@1.22.22",
+  "sideEffects": false
 }
