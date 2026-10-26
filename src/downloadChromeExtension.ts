@@ -23,7 +23,7 @@ export const downloadChromeExtension = async (
 
   if (!fs.existsSync(extensionFolder) || forceDownload) {
     if (fs.existsSync(extensionFolder)) {
-      await fs.promises.rmdir(extensionFolder, {
+      await fs.promises.rm(extensionFolder, {
         recursive: true,
       });
     }
